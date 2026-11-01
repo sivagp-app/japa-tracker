@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#7B1E22">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Japa Tracker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans:wght@400;600;700&family=Noto+Serif:wght@400;600&display=swap" rel="stylesheet">
@@ -47,16 +48,17 @@ button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer}
 
 /* App bar */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .appbar{
-  position:sticky;top:0;z-index:10;height:calc(var(--hdr) + env(safe-area-inset-top));
-  padding:env(safe-area-inset-top) 16px 0; display:flex;align-items:center;gap:10px;
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:10;height:var(--hdr);
+  padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px)); display:flex;align-items:center;gap:10px;
   background:var(--bg);border-bottom:1px solid var(--line);
 }
 .brand-om{font-family:'Noto Sans Tamil',sans-serif;font-weight:700;color:var(--saffron);font-size:20px}
 .brand{font-weight:700;color:var(--heading);font-size:18px;letter-spacing:.2px}
 .streak-pill{margin-left:auto;font-size:13px;color:var(--muted);background:var(--surface2);padding:4px 10px;border-radius:999px}
 
-main{padding:16px 16px calc(var(--nav) + 24px + env(safe-area-inset-bottom));max-width:640px;margin:0 auto}
+main{padding-block:16px calc(var(--nav) + 24px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:640px;margin:0 auto}
 .view{display:none}
 .view.active{display:block}
 h1.view-title{font-size:22px;color:var(--heading);margin:4px 0 4px}
@@ -88,11 +90,16 @@ details.flag p{margin:6px 0 2px}
 .btn{border:1px solid var(--line);background:var(--surface2);border-radius:14px;padding:12px 16px;font-weight:600;min-height:48px}
 .btn.primary{background:var(--accent);color:var(--on-accent);border-color:transparent;flex:1}
 .btn.ghost{background:transparent}
+.libseg{margin:8px 0 8px}
+.libseg button{flex:1;font-size:14px;min-height:42px}
+.pick{margin-top:12px;width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--heading);border-radius:12px;padding:10px;font-weight:600;min-height:44px}
+.pick.on{border-style:solid;border-color:var(--saffron);background:var(--surface2)}
+.editor{margin-top:12px;border-top:1px dashed var(--line);padding-top:4px}
 .btn.danger{color:#B3261E}
 .btn:active{transform:scale(.98)}
 
 /* Chant view */
-#view-chant.active{display:flex;flex-direction:column;height:calc(100dvh - var(--hdr) - var(--nav) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px)}
+#view-chant.active{display:flex;flex-direction:column;height:calc(100dvh - var(--hdr) - var(--nav) - env(safe-area-inset-top,0px) - 2*env(safe-area-inset-bottom,0px) - 40px)}
 #chantBody{display:flex;flex-direction:column;flex:1;min-height:0}
 .chant-head{display:flex;align-items:center;gap:8px}
 .chant-head h1{margin:0;font-size:18px;color:var(--heading);line-height:1.25}
@@ -174,13 +181,17 @@ input[type=range]{width:100%;accent-color:var(--saffron);height:32px}
 /* Bottom nav */
 nav.bottom{
   position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);
-  display:grid;grid-template-columns:repeat(4,1fr);height:calc(var(--nav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)
+  display:grid;grid-template-columns:repeat(4,1fr);height:calc(var(--nav) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)
 }
 nav.bottom button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600;color:var(--muted)}
 nav.bottom svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav.bottom button[aria-current="page"]{color:var(--heading)}
 nav.bottom button[aria-current="page"] svg{stroke:var(--saffron)}
 
+.modal{position:fixed;inset:0;z-index:40;background:rgba(20,8,6,.45);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.modal-box{background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:20px;padding:20px;width:100%;max-width:440px;box-shadow:var(--shadow)}
+.modal-box p{margin:0 0 16px;font-size:16px}
+.backup-txt{font-family:ui-monospace,Menlo,monospace;font-size:12px;min-height:90px;margin-top:10px}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav) + 18px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);opacity:0;
   background:var(--accent);color:var(--on-accent);padding:12px 18px;border-radius:14px;font-weight:600;transition:.25s;z-index:30;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -200,7 +211,11 @@ nav.bottom button[aria-current="page"] svg{stroke:var(--saffron)}
   <!-- LIBRARY -->
   <section class="view active" id="view-library">
     <h1 class="view-title">Sloka library</h1>
-    <p class="sub">Tap “Begin chanting” on any sloka. Today's progress shows under each card.</p>
+    <div class="seg libseg" id="libSeg" role="tablist">
+      <button data-lib="mine">My list (<span id="cntMine">0</span>)</button>
+      <button data-lib="all">All slokas (<span id="cntAll">0</span>)</button>
+    </div>
+    <p class="sub" id="libHint"></p>
     <div id="libList"><div class="card" style="text-align:center">
       <h2>The app didn’t start</h2>
       <p class="meaning">This screen is a preview, which shows the page but doesn’t run the app. Open the file in <b>Chrome</b> (Android) or <b>Safari</b> (iPhone) instead.</p>
@@ -315,11 +330,13 @@ nav.bottom button[aria-current="page"] svg{stroke:var(--saffron)}
 
     <div class="card">
       <h2 style="font-size:17px">Backup</h2>
-      <p class="hint">Your counts live only on this phone. Export a backup now and then, especially before clearing browser data.</p>
-      <div class="actions">
-        <button class="btn" id="exportBtn" style="flex:1">Export</button>
-        <button class="btn" id="importBtn" style="flex:1">Import</button>
-        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      <p class="hint">Your counts live only on this phone. Copy a backup now and then and keep it in Notes or email. To restore, paste a backup below or pick a backup file.</p>
+      <textarea id="backupTxt" class="backup-txt" placeholder="Backup text appears here, or paste one to restore"></textarea>
+      <div class="actions" style="flex-wrap:wrap">
+        <button class="btn" id="exportBtn" style="flex:1">Copy backup</button>
+        <button class="btn" id="restoreBtn" style="flex:1">Restore</button>
+        <button class="btn" id="importBtn" style="flex:1">From file</button>
+        <input type="file" id="importFile" accept="application/json,.json,.txt" hidden>
       </div>
     </div>
   </section>
@@ -336,6 +353,7 @@ nav.bottom button[aria-current="page"] svg{stroke:var(--saffron)}
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
 </nav>
 
+<div class="modal" id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true"><p id="modalMsg"></p><div class="actions"><button class="btn" id="modalNo" style="flex:1">Cancel</button><button class="btn primary" id="modalYes">OK</button></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -355,6 +373,15 @@ const BUILTIN = [
   meaning:'We worship the three-eyed Lord (Shiva), fragrant, who nourishes all beings. As a ripe cucumber is released from its vine, may He free us from death — and not from immortality.',
   flags:'Tamil script has one letter each for k/g, t/d/dh and p/b/bh, so ஸுகந்திம் = sugandhim, வர்தனம் = vardhanam and பந்தனான் = bandhanān are read with voiced/aspirated sounds. ம்ரு approximates the Sanskrit vowel ṛ.',
   source:'Rig Veda 7.59.12'
+},
+{
+  id:'kss', en:'Kanda Shasti Kavasam', ta:'கந்த சஷ்டி கவசம்', target:1,
+  tamil:"காப்பு\n\nதுதிப்போர்க்கு வல்வினை போம்; துன்பம்போம்; நெஞ்சில்\nபதிப்போர்க்குச் செல்வம் பலித்துக்-கதித்தோங்கும்\nநிஷ்டையும் கைகூடும், நிமலரருள் கந்தர்\nசஷ்டி கவசம் தனை.\n\nஅமர ரிடர்தீர அமரம் புரிந்த\nகுமரனடி நெஞ்சே குறி.\n\nநூல்\n\nசஷ்டியை நோக்கச் சரவண பவனார்\nசிஷ்டருக் குதவும் செங்கதிர் வேலோன்\nபாதம் இரண்டில் பன்மணிச் சதங்கை\nகீதம் பாடக் கிண்கிணி யாட\n\nமையல் நடனஞ்செய்யும் மயில்வா கனனார்\nகையில் வேலால் எனைக் காக்கவென் றுவந்து\nவரவர வேலா யுதனார் வருக\nவருக வருக மயிலோன் வருக\n\nஇந்திரன் முதலா எண்டிசை போற்றி\nமந்திர வடிவேல் வருக வருக!\nவாசவன் மருகா வருக வருக\nநேசக் குறமகள் நினைவோன் வருக\n\nஆறுமுகம் படைத்த ஐயா வருக\nநீறிடும் வேலவன் நித்தம் வருக\nசிரகிரி வேலவன் சீக்கிரம் வருக!\nசரவண பவனார் சடுதியில் வருக\n\nரஹண பவச ர ர ர ர ர ர ர\nரிஹண பவச ரி ரி ரி ரி ரி ரி ரி\nவிநபவ சரஹண வீரா நமோநம\nநிபவ சரஹண நிறநிற நிறென\n\nவசர வணப வருக வருக\nஅசுரர் குடிகெடுத்த ஐயா வருக\nஎன்னை ஆளும் இளையோன் கையில்\nபன்னிரண் டாயுதம் பாசாங் குசமும்\n\nபரந்த விழிகள் பன்னிரண் டிலங்க\nவிரைந்தெனைக் காக்க வேலோன் வருக\nஐயும் கிலியும் அடைவுடன் சவ்வும்\nஉய்யொளி சௌவும் உயிரையும் கிலியும்\n\nகிலியுஞ் சௌவும் கிளரொளி யையும்\nநிலைபெற் றென்முன் நித்தமும் ஒளிரும்\nசண்முகன் நீயும் தனியொளி யொவ்வும்\nகுண்டலி யாம்சிவ குகன் தினம் வருக!\n\nஆறு முகமும் அணிமுடி ஆறும்\nநீறிடு நெற்றியில் நீண்ட புருவமும்\nபன்னிரு கண்ணும் பவளச்செவ் வாயும்\nநன்னெறி நெற்றியில் நவமணிச் சுட்டியும்\n\nஈராறு செவியில் இலகுகுண் டலமும்\nஆறிரு திண்புயத் தழகிய மார்பில்\nபல்பூ ஷணமும் பதக்கமும் தரித்து\nநன்மணி பூண்ட நவரத்ன மாலையும்\n\nமுப்புரி நூலும் முத்தணி மார்பும்\nசெப்பழ குடைய திருவயி றுந்தியும்\nதுவண்ட மருங்கில் சுடரொளிப் பட்டும்\nநவரத்தினம் பதித்த நற்சீ ராவும்\n\nஇருதொடை யழகும் இணைமுழந் தாளும்\nதிருவடி யதனில் சிலம்பொலி முழங்க\nசெககண செககண செககண செகண\nமொகமொக மொகமொக மொகமொக மொகென\n\nநகநக நகநக நகநக நகென\nடிகுகுண டிகுடிகு டிகுகுண டிகுண\nரரரர ரரரர ரரரர ரரர\nரிரிரிரி ரிரிரிரி ரிரிரிரி ரிரிரி\n\nடுடுடுடு டுடுடுடு டுடுடுடு டுடுடு\nடகுடகு டிகுடிகு டங்கு டிங்குகு\nவிந்து விந்து மயிலோன் விந்து\nமுந்து முந்து முருகவேள் முந்து\n\nஎன்றனை யாளும் ஏரகச் செல்வ\nமைந்தன் வேண்டும் வரமகிழ்ந் துதவும்\nலாலா லாலா லாலா வேசமும்\nலீலா லீலா லீலா வினோ தனென்று\n\nஉன் திருவடியை உறுதியென் றெண்ணும்\nஎந்தலை வைத்துன் இணையடி காக்க\nஎன்னுயிர்க் குயிராம் இறைவன் காக்க\nபன்னிரு விழியால் பாலனைக் காக்க\n\nஅடியேன் வதனம் அழகுவேல் காக்க\nபொடிபுனை நெற்றியைப் புனிதவேல் காக்க\nகதிர்வேல் இரண்டும் கண்ணினைக் காக்க\nவிழி செவி இரண்டும் வேலவர் காக்க\n\nநாசிகளி ரண்டும் நல்வேல் காக்க\nபேசிய வாய்தனைப் பெருவேல் காக்க\nமுப்பத் திருபல் முனைவேல் காக்க\nசெப்பிய நாவைச் செவ்வேல் காக்க\n\nகன்னமி ரண்டும் கதிர்வேல் காக்க\nஎன்னிளங் கழுத்தை இனியவேல் காக்க\nமார்பை ரத்ன வடிவேல் காக்க\nசேரிள முலைமார் திருவேல் காக்க\n\nவடிவே லிருதோள் வளம்பெறக் காக்க\nபிடரிக ளிரண்டும் பெருவேல் காக்க\nஅழகுடன் முதுகை அருள்வேல் காக்க\nபழுபதி னாறும் பருவேல் காக்க\n\nவெற்றிவேல் வயிற்றை விளங்கவே காக்க\nசிற்றிடை யழகுறச் செவ்வேல் காக்க\nநாணாங் கயிற்றை நல்வேல் காக்க\nஆண் குறியிரண்டும் அயில்வேல் காக்க\n\nபிட்ட மிரண்டும் பெருவேல் காக்க\nவட்டக் குதத்தை வடிவேல் காக்க\nபணைத் தொடை இரண்டும் பருவேல் காக்க\n\nகணைக்கால் முழந்தாள் கதிர்வேல் காக்க\nஐவிரல் அடியினை அருள்வேல் காக்க\nகைகளி ரண்டும் கருணைவேல் காக்க\n\nமுன்கையி ரண்டும் முரண்வேல் காக்க\nபின்கையி ரண்டும் பின்னவள் இருக்க\nநாவில் சரஸ்வதி நற்றுணை யாக\nநாபிக் கமலம் நல்வேல் காக்க\nமுப்பால் நாடியை முனைவேல் காக்க\n\nஎப்பொழு தும்எனை எதிர்வேல் காக்க\nஅடியேன் வசனம் அசைவுள நேரம்\nகடுகவே வந்து கனகவேல் காக்க\nவரும்பகல் தன்னில் வச்சிரவேல் காக்க\nஅரையிருள் தன்னில் அனையவேல் காக்க\n\nஏமத்தில் சாமத்தில் எதிர்வேல் காக்க\nதாமதம் நீக்கிச் சதுர்வேல் காக்க\nகாக்க காக்க கனகவேல் காக்க\nநோக்க நோக்க நொடியில் நோக்க\nதாக்க தாக்க தடையறத் தாக்க\n\nபார்க்க பார்க்க பாவம் பொடிபட\nபில்லி சூனியம் பெரும்பகை அகல\nவல்ல பூதம் வலாட்டிகப் பேய்கள்\nஅல்லற் படுத்தும் அடங்கா முனியும்\nபிள்ளைகள் தின்னும் புழக்கடை முனியும்\n\nகொள்ளிவாய்ப் பேய்களும், குறளைப் பேய்களும்\nபெண்களைத் தொடரும் பிரமராட் சதரும்\nஅடியனைக் கண்டால் அலறிக் கலங்கிட\nஇரிசு காட்டேரி இத்துன்ப சேனையும்\nஎல்லிலும் இருட்டிலும் எதிர்ப்படும் அண்ணரும்\n\nகனபூசை கொள்ளும் காளியோ டனைவரும்\nவிட்டாங் காரரும் மிகுபல பேய்களும்\nதண்டியக் காரரும் சண்டாளர் களும்\nஎன்பெயர் சொல்லவும் இடிவிழுந் தோடிட\n\nஆனை யடியினில் அரும்பா வைகளும்\nபூனை மயிரும் பிள்ளைகள் என்பும்\nநகமும் மயிரும் நீள்முடி மண்டையும்\nபாவைக ளுடனே பலகல சத்துடன்\n\nமனையிற் புதைத்த வஞ்சனை தனையும்\nஒட்டியச் செருக்கும் ஒட்டிய பாவையும்\nகாசும் பணமும் காவுடன் சோறும்\nஓதும் அஞ்சனமும் ஒருவழிப் போக்கும்\n\nஅடியனைக் கண்டால் அலைந்து குலைந்திட\nமாற்றார் வஞ்சகர் வந்து வணங்கிட\nகாலதூ தாளெனைக் கண்டாற் கலங்கிட\nஅஞ்சி நடுங்கிட அரண்டு புரண்டிட\n\nவாய்விட் டலறி மதிகெட் டோட\nபடியினில் முட்ட பாசக் கயிற்றால்\nகட்டுடன் அங்கம் கதறிடக் கட்டு\nகட்டி உருட்டு கைகால் முறிய\n\nகட்டு கட்டு கதறிடக் கட்டு\nமுட்டு முட்டு முழிகள் பிதுங்கிட\nசெக்கு செக்கு செதில் செதிலாக\nசொக்கு சொக்கு சூர்ப்பகைச் சொக்கு\n\nகுத்து குத்து கூர்வடி வேலால்\nபற்று பற்று பகலவன் தணலெரி\nதணலெரி தணலெரி தணலது வாக\nவிடு விடு வேலை வெகுண்டது வோடப்\n\nபுலியும் நரியும் புன்னரி நாயும்\nஎலியும் கரடியும் இனித் தொடர்ந் தோட\nதேளும் பாம்பும் செய்யான் பூரான்\nகடிவிட விஷங்கள் கடித்துய ரங்கம்\n\nஏறிய விஷங்கள் எளிதுடன் இறங்க\nஒளிப்புஞ் சுளுக்கும் ஒருதலை நோயும்\nவாதஞ் சயித்தியம் வலிப்புப் பித்தம்\nசூலைசயங் குன்மம் சொக்குச் சிரங்கு\n\nகுடைச்சல் சிலந்தி குடல்விப் பிரிதி\nபக்கப் பிளவை படர்தொடை வாழை\nகடுவன் படுவன் கைத்தாள் சிலந்தி\nபற்குத் தரணை பருஅரை யாப்பும்\n\nஎல்லாப் பிணியும் என்றனைக் கண்டால்\nநில்லா தோட நீஎனக் கருள்வாய்\nஈரேழு உலகமும் எனக் குறவாக\nஆணும் பெண்ணும் அனைவரும் எனக்கா\n\nமண்ணா ளரசரும் மகிழ்ந்துற வாகவும்\nஉன்னைத் துதிக்க உன் திரு நாமம்\nசரவண பவனே சைலொளி பவனே\nதிரிபுர பவனே திகழொளி பவனே\n\nபரிபுர பவனே பவமொளி பவனே\nஅரிதிரு மருகா அமரா வதியைக்\nகாத்துத் தேவர்கள் கடும்சிறை விடுத்தாய்\nகந்தா குகனே கதிர்வே லவனே\n\nகார்த்திகை மைந்தா கடம்பா கடம்பனை\nஇடும்பனை யழித்த இனியவேல் முருகா\nதனிகா சலனே சங்கரன் புதல்வா\nகதிர்கா மத்துறை கதிர்வேல் முருகா\n\nபழநிப் பதிவாழ் பாலகு மாரா\nஆவினன் குடிவாழ் அழகிய வேலா\nசெந்தின்மா மலையுறும் செங்கல்வ ராயா\nசமரா புரிவாழ் சண்முகத் தரசே\n\nகாரார் குழலாள் கலைமகள் நன்றாய்\nஎன்நா இருக்க யானுனைப் பாட\nஎனைத் தொடர்ந்திருக்கும் எந்தை முருகனைப்\nபாடினேன் ஆடினேன் பரவச மாக\n\nஆடினேன் நாடினேன் ஆவினன் பூதியை\nநேச முடன்யான் நெற்றியில் அணிய\nபாச வினைகள் பற்றது நீங்கி\nஉன்பதம் பெறவே உன்னரு ளாக\n\nஅன்புடன் இரட்சி அன்னமுஞ் சொன்னமும்\nமெத்தமெத் தாக வேலா யுதனார்\nசித்திபெற் றடியேன் சிறப்புடன் வாழ்க\nவாழ்க வாழ்க மயிலோன் வாழ்க\n\nவாழ்க வாழ்க வடிவேல் வாழ்க\nவாழ்க வாழ்க மலைக்குரு வாழ்க\nவாழ்க வாழ்க மலைக்குற மகளுடன்\nவாழ்க வாழ்க வாரணத் துவசம்\n\nவாழ்க வாழ்கஎன் வறுமைகள் நீங்க\nஎத்தனை குறைகள் எத்தனை பிழைகள்\nஎத்தனை அடியேன் எத்தனை செயினும்\nபெற்றவன் நீகுரு பொறுப்பது உன்கடன்\n\nபெற்றவள் குறமகள் பெற்றவ ளாமே\nபிள்ளையென் றன்பாய்ப் பிரிய மளித்து\nமைந்தனென் மீதுன் மனமகிழ்ந் தருளித்\nதஞ்சமென் றடியார் தழைத்திட அருள்செய்\n\nகந்தர் சஷ்டி கவசம் விரும்பிய\nபாலன் தேவ ராயன் பகர்ந்ததைக்\nகாலையில் மாலையில் கருத்துடன் நாளும்\nஆசா ரத்துடன் அங்கந் துலக்கி\n\nநேசமுடன் ஒரு நினைவது வாகிக்\nகந்தர் சஷ்டிக் கவசம் இதனைச்\nசிந்தை கலங்காது தியானிப் பவர்கள்\nஒருநாள் முப்பத் தாறுருக் கொண்டு\nஓதியே ஜெபித்து உகந்துநீ றணிய\n\nஅஷ்டதிக் குள்ளோர் அடங்கலும் வசமாய்த்\nதிசைமன்ன ரெண்மர் செயலது அருளுவர்\nமாற்றவ ரல்லாம் வந்து வணங்குவர்\n\nநவகோள் மகிழ்ந்து நன்மை யளித்திடும்\nநவமதனெனவும் நல்லெழில் பெறுவர்\nஎந்த நாளும் ஈரெட்டாய் வாழ்வார்\nகந்தர்கை வேலாம் கவசத் தடியை\n\nவழியாய்க் காண மெய்யாய் விளங்கும்\nவிழியாற் காண வெருண்டிடும் பேய்கள்\nபொல்லா தவரைப் பொடிபொடி யாக்கும்\nநல்லோர் நினைவில் நடனம் புரியும்\n\nசர்வ சத்ரு சங்கா ரத்தடி\nஅறிந்தென துள்ளம் அஷ்ட லட்சுமிகளில்\nவீரலட் சுமிக்கு விருந்துண வாகச்\nசூரபத் மாவைத் துணித்தகை யதனால்\nஇருபத் தேழ்வர்க் குவந்தமு தளித்த\n\nகுருபரன் பழநிக் குன்றினி லிருக்கும்\nசின்னக் குழந்தை சேவடி போற்றி!\nஎனைத்தடுத் தாட்கொள என்றன துள்ளம்\n\nமேவிய வடிவுறும் வேலவா போற்றி!\nதேவர்கள் சேனா பதியே போற்றி!\nகுறமகள் மனமகிழ் கோவே போற்றி!\nதிறமிகு திவ்விய தேகா போற்றி!\n\nஇடும்பா யுதனே இடும்பா போற்றி!\nகடம்பா போற்றி கந்தா போற்றி!\nவெட்சி புனையும் வேலே போற்றி!\nஉயர்கிரி கனக சபைக்கோ ரரசே!\n\nமயில்நட மிடுவோய் மலரடி சரணம்!\nசரணம் சரணம் சரவண பவஓம்\nசரணம் சரணம் சண்முகா சரணம்!\nசரணம் சரணம் சண்முகா சரணம்!",
+  simple:"Thuthipporku Valvinaipom Thunbampom\nNenjil Pathipporku Selvam Palithuk Kathithongum\nNishtaiyum Kaikoodum\nNimalar Arul Kanthar Sashti Kavacham Thanai\n\nAmarar Idar Theera Amaram Purintha\nKumaranadi Nenjeh Kuri\n\nSashtiyai Nokka Saravana Bavanaar\nSishtarukku Uthavum Sengkathir Velon\nPaatham Irandil Panmani Sathangai\nGeetham Paada Kinkini Yaada\nMaiya Nadam Seiyum Mayil Vahananaar\n\nKaiyil Velaal Yenaik Kaakka Vendru Vanthu\nVaravara Velah Yuthanaar Varuha\nVaruha Varuha Mayilon Varuha\nInthiran Mudhalaa Yendisai Potra\nManthira Vadivel Varuha Varuha\n\nVaasavan Maruhaa Varuha Varuha\nNesak Kuramahal Ninaivon Varuha\nAarumuham Padaitha Aiyaa Varuha\nNeeridum Velavan Nitham Varuha\nSirahiri Velavan Seekkiram Varuha\n\nSaravana Bavanaar Saduthiyil Varuha\nRahana Bavasa Ra Ra Ra Ra Ra Ra Ra\nRihana Bavasa Ri Ri Ri Ri Ri Ri Ri\nVinabava Sarahana Veeraa Namo Nama\nNibava Sarahana Nira Nira Nirena\n\nVasara Hanabava Varuha Varuha\nAsurar Kudi Kedutha Aiyaa Varuha\nYennai Yaalum Ilaiyon Kaiyil\nPannirendu Aayutham Paasaan Gusamum\nParantha Vizhihal Pannirandu Ilanga\n\nVirainthu Yenaik Kaakka Velon Varuha\nAiyum Kiliyum Adaivudan Sauvum\nUyyoli Sauvum Uyiraiyum Kiliyum\nKiliyum Sauvum Kilaroli Yaiyum\nNilai Petrenmun Nithamum Olirum\n\nShanmuhan Neeyum Thaniyoli Yovvum\nKundaliyaam Siva Guhan Thinam Varuha\nAaru Muhamum Animudi Aarum\nNeeridu Netriyum Neenda Puruvamum\nPanniru Kannum Pavalach Chevvaayum\n\nNanneri Netriyil Navamanich Chuttiyum\nEeraaru Seviyil Ilahu Kundalamum\nAariru Thinpuyathu Azhahiya Maarbil\nPalboo Shanamum Pathakkamum Tharithu\nNanmanipoonda Navarathna Maalaiyum\n\nMuppuri Noolum Muthani Maarbum\nSepppazhahudaiya Thiruvayir Unthiyum\nThuvanda Marungil Sudaroli Pattum\nNavarathnam Pathitha Nartchee Raavum\nIruthodai Azhahum Inai Muzhanthaalum\n\nThiruvadi Yathanil Silamboli Muzhanga\nSeha Gana Seha Gana Seha Gana Segana\nMoga Moga Moga Moga Moga Moga Mogana\nNaha Naha Naha Naha Naha Naha Nahena\nDigu Kuna Digu Digu Digu Kuna Diguna\n\nRa Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra\nRi Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri\nDu Du Du Du Du Du Du Du Du Du Du Du Du Du Du\nDagu Dagu Digu Digu Dangu Dingugu\nVinthu Vinthu Mayilon Vinthu\n\nMunthu Munthu Muruhavel Munthu\nYenthanai Yaalum Yehraha Selva\nMainthan Vehndum Varamahizhnth Thuthavum\nLaalaa Laalaa Laalaa Vehshamum\nLeelaa Leelaa Leelaa Vinothanendru\n\nUnthiru Vadiyai Uruthi Yendrennum\nYen Thalai Vaithun Yinaiyadi Kaaka\nYennuyirk Uyiraam Iraivan Kaaka\nPanniru Vizhiyaal Baalanaik Kaaka\nAdiyen Vathanam Azhahuvel Kaaka\n\nPodipunai Netriyaip Punithavel Kaaka\nKathirvel Irandu Kanninaik Kaaka\nVithisevi Irandum Velavar Kaaka\nNaasihal Irandum Nalvel Kaaka\nPesiya Vaaythanai Peruvel Kaaka\n\nMuppathirupal Munaivel Kaaka\nSeppiya Naavai Sevvel Kaaka\nKannam Irandum Kathirvel Kaaka\nYennilang Kazhuthai Iniyavel Kaaka\nMaarbai Irathna Vadivel Kaaka\n\nSerila Mulaimaar Thiruvel Kaaka\nVadivel Iruthol Valamberak Kaaka\nPidarihal Irandum Peruvel Kaaka\nAzhahudan Muthuhai Arulvel Kaaka\nPazhu Pathinaarum Paruvel Kaaka\n\nVetrivel Vayitrai Vilangave Kaaka\nSitridai Azhahura Sevvel Kaaka\nNaanaam Kayitrai Nalvel Kaaka\nAan Penn Kurihalai Ayilvel Kaaka\nPittam Irandum Peruvel Kaaka\n\nVattak Kuthathai Valvel Kaaka\nPanai Thodai Irandum Paruvel Kaaka\nKanaikaal Muzhanthaal Kathirvel Kaaka\nAiviral Adiyinai Arulvel Kaaka\nKaihal Irandum Karunaivel Kaaka\n\nMunkai Irandum Muranvel Kaaka\nPinkai Irandum Pinnaval Irukka\nNaavil Sarasvathi Natrunai Yaaha\nNaabik Kamalam Nalvel Kakka\nMuppaal Naadiyai Munaivel Kaaka\n\nYeppozhuthum Yenai Yethirvel Kaaka\nAdiyen Vasanam Asaivula Neram\nKaduhave Vanthu Kanahavel Kaaka\nVarum Pahal Thannil Vachravel Kaaka\nArai Irul Thannil Anaiyavel Kaaka\n\nYemathil Saamathil Yethirvel Kaaka\nThaamatham Neeki Chathurvel Kaaka\nKaaka Kaaka Kanahavel Kaaka\nNoaka Noaka Nodiyil Noaka\nThaakka Thaakka Thadaiyara Thaakka\n\nPaarka Paarka Paavam Podipada\nBilli Soonyam Perumpahai Ahala\nValla Bootham Valaashtihap Peihal\nAllal Paduthum Adangaa Muniyum\nPillaihal Thinnum Puzhakadai Muniyum\n\nKollivaayp Peihalum Kuralaip Peihalum\nPenkalai Thodarum Bramaraa Chatharum\nAdiyanaik Kandaal Alari Kalangida\nIrisi Kaatteri Ithunba Senaiyum\nYellilum Iruttilum Yethirpadum Mannarum\n\nKana Pusai Kollum Kaaliyodu Anaivarum\nVittaan Gaararum Migu Pala Peihalum\nThandiyak Kaararum Sandaalar Halum\nYen Peyar Sollavum Idi Vizhunthodida\nAanai Adiyinil Arum Paavaihalum\n\nPoonai Mayirum Pillaihal Enpum\nNahamum Mayirum Neenmudi Mandaiyum\nPaavaihal Udane Pala Kalasathudan\nManaiyil Puthaitha Vanjanai Thanaiyum\nOttiya Paavaiyum Ottiya Serukkum\n\nKaasum Panamum Kaavudan Sorum\nOthu Manjanamum Oruvazhi Pokum\nAdiyanaik Kandaal Alainthu Kulainthida\nMaatran Vanjahar Vanthu Vanangida\nKaala Thoothaal Yenai Kandaal Kalangida\n\nAnji Nadungida Arandu Purandida\nVaay Vittalari Mathi Kettoda\nPadiyinil Mutta Paasak Kayitraal\nKattudan Angam Katharida Kattu\nKatti Uruttu Kaal Kai Muriya\n\nKattu Kattu Katharida Kattu\nMuttu Muttu Muzhihal Pithungida\nSekku Sekku Sethil Sethilaaha\nSokku Sokku Soorpahai Sokku\nKuthu Kuthu Koorvadi Velaal\n\nPatru Patru Pahalavan Thanaleri\nThanaleri Thanaleri Thanalathuvaaha\nViduvidu Velai Verundathu Oda\nPuliyum Nariyum Punnari Naayum\nYeliyum Karadiyum Inithodarnthu Oda\n\nThelum Paambum Seyyaan Pooraan\nKadivida Vishangal Kadithuyar Angam\nYeriya Vishangal Yelithudan Iranga\nPolippum Sulukkum Oruthalai Noyum\nVaatham Sayithiyam Valippu Pitham\n\nSoolai Sayam Kunmam Sokku Sirangu\nKudaichal Silanthi Kudalvip Purithi\nPakka Pilavai Padarthodai Vaazhai\nKaduvan Paduvan Kaithaal Silanthi\nParkuthu Aranai Paru Arai Yaakkum\n\nYellap Piniyum Yendranaik Kandaal\nNillaa Thoda Nee Yenak Arulvaay\nEerezhula Hamum Yenak Uravaaha\nAanum Pennum Anaivarum Yenakkaa\nMannaal Arasarum Mahizhnthura Vaahavum\n\nUnnai Thuthikka Un Thirunaamam\nSaravana Bavane Sailoli Bavanee\nThirupura Bavane Thigazholi Bavane\nParipura Bavane Pavamozhi Bavane\nArithiru Maruhaa Amaraa Pathiyai\n\nKaathu Thevarkal Kadum Sirai Viduthaay\nKanthaa Guhane Kathir Velavane\nKaarthihai Mainthaa Kadambaa Kadambanai\nIdumbanai Yazhitha Iniyavel Muruhaa\nThanihaa Salane Sangaran Puthalvaa\n\nKathirkaa Mathurai Kathirvel Muruhaa\nPazhani Pathivaazh Baala Kumaaraa\nAavinan Kudivaazh Azhahiya Vela\nSenthil Maamalai Yurum Sengalva Raayaa\nSamaraa Purivaazh Shanmuha Tharase\n\nKaarar Kuzhalaal Kalaimahal Nandraay\nYennaa Irukka Yaan Unai Paada\nYenai Thodarnthu Irukkum Yenthai Muruhanai\nPadinen Aadinen Paravasa Maaha\nAadinen Naadinen Aavinan Poothiyey\n\nNesamudan Yaan Netriyil Aniya\nPaasa Vinaihal Patrathu Neengi\nUnpatham Perave Unnarulaaha\nAnbudan Rakshi Annamum Sonnamum\nMetha Methaaha Velaayu Thanaar\n\nSithi Petradiyen Sirappudan Vazhga\nVaazhga Vaazhga Mayilon Vaazhga\nVaazhga Vaazhga Vadivel Vaazhga\nVaazhga Vaazhga Malai Guru Vaazhga\nVaazhga Vaazhga Malai Kura Mahaludan\n\nVaazhga Vaazhga Vaarana Thuvasam\nVaazhga Vaazhga Yen Varumaihal Neenga\nYethanai Kuraihal Yethanai Pizhaihal\nYethanai Adiyen Yethanai Seiyinum\nPetravan Neeguru Poruppathu Unkadan\n\nPetraval Kuramahal Petravalaame\nPillai Yendranbaay Piriya Malithu\nMainthan Yenmeethu Unmanam Mahizhntharuli\nThanjam Yendradiyaar Thazhaithida Arulsey\nKanthar Sashti Kavasam Virumbiya\n\nBaalan Theva Raayan Paharn Thathai\nKaalaiyil Maalaiyil Karuthudan Naalum\nAasaa Rathudan Angam Thulakki\nNesamudan Oru Ninaivathu Vaahi\nKanthar Sashti Kavasam Ithanai\n\nSindhai Kalangaathu Thiyaani Pavarhal\nOrunaal Muppathaa Ruru Kondu\nOthiyeh Jebithu Uhanthu Neeraniya\nAshta Thikkullor Adangalum Vasamaay\nThisai Mannar Yenmar Seyalathu (Sernthangu) Arulvar\nMaatrala Rellaam Vanthu Vananguvar\nNavakol Mahizhnthu Nanmai Alithidum\nNavamatha Nenavum Nallezhil Peruvar\nEnthanaalum Eerettaay Vaazhvar\nKantharkai Velaam Kavasa Thadiyai\n\nVazhiyaay Kaana Meiyaay Vilangum\nVizhiyaal Kaana Verundidum Peigal\nPollathavarai Podi Podi Yaakkum\nNallor Ninaivil Nadanam Puriyum\nSarva Sathuru Sankaa Rathadi\n\nArintha Yenathullaam Ashta Letchmihalil\nVeera Letchmikku Virun Thunavaaha\nSoora Bathmaavaith Thunithagai Yathanaal\nIruba Thezhvarkku Uvan Thamuthalitha\nGurubaran Pazhani Kundrinil Irukkum\n\nChinna Kuzhanthai Sevadi Potri\nYenai Thadu Thaatkola Yendrana Thullum\nMeviya Vadivurum Velava Potri\nThevargal Senaa Pathiye Potri\nKuramahal Manamahizh Kove Potri\n\nThiramihu Thivya Thehaa Potri\nIdumbaa Yuthane Idumbaa Potri\nKadambaa Potri Kanthaa Potri\nVetchi Punaiyum Veleh Potri\nUyargiri Kanaha Sabaikor Arase\n\nMayilnada Miduvoy Malaradi Saranam\nSaranam Saranam Saravanabava Om\nSaranam Saranam Shanmuhaa Saranam\nSaranam Saranam Shanmuhaa Saranam",
+  iast:"kāppu\n\ntutippōrkku valviṉai pōm; tuṉpampōm; neñcil\npatippōrkkuc celvam palittuk-katittōṅkum\nniṣṭaiyum kaikūṭum, nimalararuḷ kantar\ncaṣṭi kavacam taṉai.\n\namara riṭartīra amaram purinta\nkumaraṉaṭi neñcē kuṟi.\n\nnūl\n\ncaṣṭiyai nōkkac caravaṇa pavaṉār\nciṣṭaruk kutavum ceṅkatir vēlōṉ\npātam iraṇṭil paṉmaṇic cataṅkai\nkītam pāṭak kiṇkiṇi yāṭa\n\nmaiyal naṭaṉañceyyum mayilvā kaṉaṉār\nkaiyil vēlāl eṉaik kākkaveṉ ṟuvantu\nvaravara vēlā yutaṉār varuka\nvaruka varuka mayilōṉ varuka\n\nintiraṉ mutalā eṇṭicai pōṟṟi\nmantira vaṭivēl varuka varuka!\nvācavaṉ marukā varuka varuka\nnēcak kuṟamakaḷ niṉaivōṉ varuka\n\nāṟumukam paṭaitta aiyā varuka\nnīṟiṭum vēlavaṉ nittam varuka\ncirakiri vēlavaṉ cīkkiram varuka!\ncaravaṇa pavaṉār caṭutiyil varuka\n\nrahaṇa pavaca ra ra ra ra ra ra ra\nrihaṇa pavaca ri ri ri ri ri ri ri\nvinapava carahaṇa vīrā namōnama\nnipava carahaṇa niṟaniṟa niṟeṉa\n\nvacara vaṇapa varuka varuka\nacurar kuṭikeṭutta aiyā varuka\neṉṉai āḷum iḷaiyōṉ kaiyil\npaṉṉiraṇ ṭāyutam pācāṅ kucamum\n\nparanta viḻikaḷ paṉṉiraṇ ṭilaṅka\nvirainteṉaik kākka vēlōṉ varuka\naiyum kiliyum aṭaivuṭaṉ cavvum\nuyyoḷi cauvum uyiraiyum kiliyum\n\nkiliyuñ cauvum kiḷaroḷi yaiyum\nnilaipeṟ ṟeṉmuṉ nittamum oḷirum\ncaṇmukaṉ nīyum taṉiyoḷi yovvum\nkuṇṭali yāmciva kukaṉ tiṉam varuka!\n\nāṟu mukamum aṇimuṭi āṟum\nnīṟiṭu neṟṟiyil nīṇṭa puruvamum\npaṉṉiru kaṇṇum pavaḷaccev vāyum\nnaṉṉeṟi neṟṟiyil navamaṇic cuṭṭiyum\n\nīrāṟu ceviyil ilakukuṇ ṭalamum\nāṟiru tiṇpuyat taḻakiya mārpil\npalpū ṣaṇamum patakkamum tarittu\nnaṉmaṇi pūṇṭa navaratṉa mālaiyum\n\nmuppuri nūlum muttaṇi mārpum\nceppaḻa kuṭaiya tiruvayi ṟuntiyum\ntuvaṇṭa maruṅkil cuṭaroḷip paṭṭum\nnavarattiṉam patitta naṟcī rāvum\n\nirutoṭai yaḻakum iṇaimuḻan tāḷum\ntiruvaṭi yataṉil cilampoli muḻaṅka\ncekakaṇa cekakaṇa cekakaṇa cekaṇa\nmokamoka mokamoka mokamoka mokeṉa\n\nnakanaka nakanaka nakanaka nakeṉa\nṭikukuṇa ṭikuṭiku ṭikukuṇa ṭikuṇa\nrararara rararara rararara rarara\nriririri riririri riririri ririri\n\nṭuṭuṭuṭu ṭuṭuṭuṭu ṭuṭuṭuṭu ṭuṭuṭu\nṭakuṭaku ṭikuṭiku ṭaṅku ṭiṅkuku\nvintu vintu mayilōṉ vintu\nmuntu muntu murukavēḷ muntu\n\neṉṟaṉai yāḷum ērakac celva\nmaintaṉ vēṇṭum varamakiḻn tutavum\nlālā lālā lālā vēcamum\nlīlā līlā līlā viṉō taṉeṉṟu\n\nuṉ tiruvaṭiyai uṟutiyeṉ ṟeṇṇum\nentalai vaittuṉ iṇaiyaṭi kākka\neṉṉuyirk kuyirām iṟaivaṉ kākka\npaṉṉiru viḻiyāl pālaṉaik kākka\n\naṭiyēṉ vataṉam aḻakuvēl kākka\npoṭipuṉai neṟṟiyaip puṉitavēl kākka\nkatirvēl iraṇṭum kaṇṇiṉaik kākka\nviḻi cevi iraṇṭum vēlavar kākka\n\nnācikaḷi raṇṭum nalvēl kākka\npēciya vāytaṉaip peruvēl kākka\nmuppat tirupal muṉaivēl kākka\nceppiya nāvaic cevvēl kākka\n\nkaṉṉami raṇṭum katirvēl kākka\neṉṉiḷaṅ kaḻuttai iṉiyavēl kākka\nmārpai ratṉa vaṭivēl kākka\ncēriḷa mulaimār tiruvēl kākka\n\nvaṭivē lirutōḷ vaḷampeṟak kākka\npiṭarika ḷiraṇṭum peruvēl kākka\naḻakuṭaṉ mutukai aruḷvēl kākka\npaḻupati ṉāṟum paruvēl kākka\n\nveṟṟivēl vayiṟṟai viḷaṅkavē kākka\nciṟṟiṭai yaḻakuṟac cevvēl kākka\nnāṇāṅ kayiṟṟai nalvēl kākka\nāṇ kuṟiyiraṇṭum ayilvēl kākka\n\npiṭṭa miraṇṭum peruvēl kākka\nvaṭṭak kutattai vaṭivēl kākka\npaṇait toṭai iraṇṭum paruvēl kākka\n\nkaṇaikkāl muḻantāḷ katirvēl kākka\naiviral aṭiyiṉai aruḷvēl kākka\nkaikaḷi raṇṭum karuṇaivēl kākka\n\nmuṉkaiyi raṇṭum muraṇvēl kākka\npiṉkaiyi raṇṭum piṉṉavaḷ irukka\nnāvil carasvati naṟṟuṇai yāka\nnāpik kamalam nalvēl kākka\nmuppāl nāṭiyai muṉaivēl kākka\n\neppoḻu tumeṉai etirvēl kākka\naṭiyēṉ vacaṉam acaivuḷa nēram\nkaṭukavē vantu kaṉakavēl kākka\nvarumpakal taṉṉil vacciravēl kākka\naraiyiruḷ taṉṉil aṉaiyavēl kākka\n\nēmattil cāmattil etirvēl kākka\ntāmatam nīkkic caturvēl kākka\nkākka kākka kaṉakavēl kākka\nnōkka nōkka noṭiyil nōkka\ntākka tākka taṭaiyaṟat tākka\n\npārkka pārkka pāvam poṭipaṭa\npilli cūṉiyam perumpakai akala\nvalla pūtam valāṭṭikap pēykaḷ\nallaṟ paṭuttum aṭaṅkā muṉiyum\npiḷḷaikaḷ tiṉṉum puḻakkaṭai muṉiyum\n\nkoḷḷivāyp pēykaḷum, kuṟaḷaip pēykaḷum\npeṇkaḷait toṭarum piramarāṭ catarum\naṭiyaṉaik kaṇṭāl alaṟik kalaṅkiṭa\niricu kāṭṭēri ittuṉpa cēṉaiyum\nellilum iruṭṭilum etirppaṭum aṇṇarum\n\nkaṉapūcai koḷḷum kāḷiyō ṭaṉaivarum\nviṭṭāṅ kārarum mikupala pēykaḷum\ntaṇṭiyak kārarum caṇṭāḷar kaḷum\neṉpeyar collavum iṭiviḻun tōṭiṭa\n\nāṉai yaṭiyiṉil arumpā vaikaḷum\npūṉai mayirum piḷḷaikaḷ eṉpum\nnakamum mayirum nīḷmuṭi maṇṭaiyum\npāvaika ḷuṭaṉē palakala cattuṭaṉ\n\nmaṉaiyiṟ putaitta vañcaṉai taṉaiyum\noṭṭiyac cerukkum oṭṭiya pāvaiyum\nkācum paṇamum kāvuṭaṉ cōṟum\nōtum añcaṉamum oruvaḻip pōkkum\n\naṭiyaṉaik kaṇṭāl alaintu kulaintiṭa\nmāṟṟār vañcakar vantu vaṇaṅkiṭa\nkālatū tāḷeṉaik kaṇṭāṟ kalaṅkiṭa\nañci naṭuṅkiṭa araṇṭu puraṇṭiṭa\n\nvāyviṭ ṭalaṟi matikeṭ ṭōṭa\npaṭiyiṉil muṭṭa pācak kayiṟṟāl\nkaṭṭuṭaṉ aṅkam kataṟiṭak kaṭṭu\nkaṭṭi uruṭṭu kaikāl muṟiya\n\nkaṭṭu kaṭṭu kataṟiṭak kaṭṭu\nmuṭṭu muṭṭu muḻikaḷ pituṅkiṭa\ncekku cekku cetil cetilāka\ncokku cokku cūrppakaic cokku\n\nkuttu kuttu kūrvaṭi vēlāl\npaṟṟu paṟṟu pakalavaṉ taṇaleri\ntaṇaleri taṇaleri taṇalatu vāka\nviṭu viṭu vēlai vekuṇṭatu vōṭap\n\npuliyum nariyum puṉṉari nāyum\neliyum karaṭiyum iṉit toṭarn tōṭa\ntēḷum pāmpum ceyyāṉ pūrāṉ\nkaṭiviṭa viṣaṅkaḷ kaṭittuya raṅkam\n\nēṟiya viṣaṅkaḷ eḷituṭaṉ iṟaṅka\noḷippuñ cuḷukkum orutalai nōyum\nvātañ cayittiyam valippup pittam\ncūlaicayaṅ kuṉmam cokkuc ciraṅku\n\nkuṭaiccal cilanti kuṭalvip piriti\npakkap piḷavai paṭartoṭai vāḻai\nkaṭuvaṉ paṭuvaṉ kaittāḷ cilanti\npaṟkut taraṇai paruarai yāppum\n\nellāp piṇiyum eṉṟaṉaik kaṇṭāl\nnillā tōṭa nīeṉak karuḷvāy\nīrēḻu ulakamum eṉak kuṟavāka\nāṇum peṇṇum aṉaivarum eṉakkā\n\nmaṇṇā ḷaracarum makiḻntuṟa vākavum\nuṉṉait tutikka uṉ tiru nāmam\ncaravaṇa pavaṉē cailoḷi pavaṉē\ntiripura pavaṉē tikaḻoḷi pavaṉē\n\nparipura pavaṉē pavamoḷi pavaṉē\naritiru marukā amarā vatiyaik\nkāttut tēvarkaḷ kaṭumciṟai viṭuttāy\nkantā kukaṉē katirvē lavaṉē\n\nkārttikai maintā kaṭampā kaṭampaṉai\niṭumpaṉai yaḻitta iṉiyavēl murukā\ntaṉikā calaṉē caṅkaraṉ putalvā\nkatirkā mattuṟai katirvēl murukā\n\npaḻanip pativāḻ pālaku mārā\nāviṉaṉ kuṭivāḻ aḻakiya vēlā\ncentiṉmā malaiyuṟum ceṅkalva rāyā\ncamarā purivāḻ caṇmukat taracē\n\nkārār kuḻalāḷ kalaimakaḷ naṉṟāy\neṉnā irukka yāṉuṉaip pāṭa\neṉait toṭarntirukkum entai murukaṉaip\npāṭiṉēṉ āṭiṉēṉ paravaca māka\n\nāṭiṉēṉ nāṭiṉēṉ āviṉaṉ pūtiyai\nnēca muṭaṉyāṉ neṟṟiyil aṇiya\npāca viṉaikaḷ paṟṟatu nīṅki\nuṉpatam peṟavē uṉṉaru ḷāka\n\naṉpuṭaṉ iraṭci aṉṉamuñ coṉṉamum\nmettamet tāka vēlā yutaṉār\ncittipeṟ ṟaṭiyēṉ ciṟappuṭaṉ vāḻka\nvāḻka vāḻka mayilōṉ vāḻka\n\nvāḻka vāḻka vaṭivēl vāḻka\nvāḻka vāḻka malaikkuru vāḻka\nvāḻka vāḻka malaikkuṟa makaḷuṭaṉ\nvāḻka vāḻka vāraṇat tuvacam\n\nvāḻka vāḻkaeṉ vaṟumaikaḷ nīṅka\nettaṉai kuṟaikaḷ ettaṉai piḻaikaḷ\nettaṉai aṭiyēṉ ettaṉai ceyiṉum\npeṟṟavaṉ nīkuru poṟuppatu uṉkaṭaṉ\n\npeṟṟavaḷ kuṟamakaḷ peṟṟava ḷāmē\npiḷḷaiyeṉ ṟaṉpāyp piriya maḷittu\nmaintaṉeṉ mītuṉ maṉamakiḻn taruḷit\ntañcameṉ ṟaṭiyār taḻaittiṭa aruḷcey\n\nkantar caṣṭi kavacam virumpiya\npālaṉ tēva rāyaṉ pakarntataik\nkālaiyil mālaiyil karuttuṭaṉ nāḷum\nācā rattuṭaṉ aṅkan tulakki\n\nnēcamuṭaṉ oru niṉaivatu vākik\nkantar caṣṭik kavacam itaṉaic\ncintai kalaṅkātu tiyāṉip pavarkaḷ\norunāḷ muppat tāṟuruk koṇṭu\nōtiyē jepittu ukantunī ṟaṇiya\n\naṣṭatik kuḷḷōr aṭaṅkalum vacamāyt\nticaimaṉṉa reṇmar ceyalatu aruḷuvar\nmāṟṟava rallām vantu vaṇaṅkuvar\n\nnavakōḷ makiḻntu naṉmai yaḷittiṭum\nnavamataṉeṉavum nalleḻil peṟuvar\nenta nāḷum īreṭṭāy vāḻvār\nkantarkai vēlām kavacat taṭiyai\n\nvaḻiyāyk kāṇa meyyāy viḷaṅkum\nviḻiyāṟ kāṇa veruṇṭiṭum pēykaḷ\npollā tavaraip poṭipoṭi yākkum\nnallōr niṉaivil naṭaṉam puriyum\n\ncarva catru caṅkā rattaṭi\naṟinteṉa tuḷḷam aṣṭa laṭcumikaḷil\nvīralaṭ cumikku viruntuṇa vākac\ncūrapat māvait tuṇittakai yataṉāl\nirupat tēḻvark kuvantamu taḷitta\n\nkuruparaṉ paḻanik kuṉṟiṉi lirukkum\nciṉṉak kuḻantai cēvaṭi pōṟṟi!\neṉaittaṭut tāṭkoḷa eṉṟaṉa tuḷḷam\n\nmēviya vaṭivuṟum vēlavā pōṟṟi!\ntēvarkaḷ cēṉā patiyē pōṟṟi!\nkuṟamakaḷ maṉamakiḻ kōvē pōṟṟi!\ntiṟamiku tivviya tēkā pōṟṟi!\n\niṭumpā yutaṉē iṭumpā pōṟṟi!\nkaṭampā pōṟṟi kantā pōṟṟi!\nveṭci puṉaiyum vēlē pōṟṟi!\nuyarkiri kaṉaka capaikkō raracē!\n\nmayilnaṭa miṭuvōy malaraṭi caraṇam!\ncaraṇam caraṇam caravaṇa pavaōm\ncaraṇam caraṇam caṇmukā caraṇam!\ncaraṇam caraṇam caṇmukā caraṇam!",
+  meaning:'Opening venba: for those who praise the Kanda Shasti Kavasam, the grace of the pure Lord, past karma and sorrow fall away; for those who hold it in their heart, prosperity grows and steady devotion is attained. The Kavasam then calls on Murugan and his Vel to protect every part of the body, at every hour, from all harm and illness, and closes with praise of his shrines and a prayer for his grace.',
+  flags:'Original Tamil by Devaraya Swamigal, so no Sanskrit approximation in the Tamil text. Full text from Tamil Wikisource, with three typos corrected to match common printed editions (தடையறத், நாடினேன், செயலது). The English text is the transliteration you supplied; the IAST view is generated letter by letter from the Tamil. Sandhi spellings vary slightly between printed editions.',
+  source:'Full text: Tamil Wikisource.'
 },
 {
   id:'gayatri', en:'Gayatri Mantra', ta:'காயத்ரீ மந்த்ரம்', target:108,
@@ -392,24 +419,69 @@ const BUILTIN = [
   source:'Opening dohas and first two chaupais. Full text: add from a trusted source (e.g. Gita Press).'
 },
 {
-  id:'vsn', en:'Vishnu Sahasranamam', ta:'விஷ்ணு ஸஹஸ்ரநாமம்', target:1, partial:true,
-  tamil:'ஶுக்லாம்பரதரம் விஷ்ணும் ஶஶிவர்ணம் சதுர்புஜம் ।\nப்ரஸன்னவதனம் த்யாயேத் ஸர்வவிக்னோபஶாந்தயே ॥\n\nவிஶ்வம் விஷ்ணுர் வஷட்காரோ பூதபவ்யபவத்ப்ரபுஃ ।\nபூதக்ருத் பூதப்ருத் பாவோ பூதாத்மா பூதபாவனஃ ॥',
-  simple:'Shuklambara-dharam vishnum shashi-varnam chatur-bhujam\nprasanna-vadanam dhyayet sarva-vighnopa-shantaye\n\nVishvam vishnur vashatkaro bhuta-bhavya-bhavat-prabhuh\nbhuta-krid bhuta-bhrid bhavo bhutatma bhuta-bhavanah',
-  iast:'śuklāmbaradharaṃ viṣṇuṃ śaśivarṇaṃ caturbhujam |\nprasannavadanaṃ dhyāyet sarvavighnopaśāntaye ||\n\nviśvaṃ viṣṇur vaṣaṭkāro bhūtabhavyabhavatprabhuḥ |\nbhūtakṛd bhūtabhṛd bhāvo bhūtātmā bhūtabhāvanaḥ ||',
-  meaning:'Invocation: meditate on the one clad in white, all-pervading, moon-hued and four-armed, with a serene face, to remove all obstacles. First verse of the names: He is the universe, the all-pervader, the one invoked in sacrifice, Lord of past, future and present; maker and sustainer of beings, existence itself, their inner Self and source.',
-  flags:'க்ருத் / ப்ருத் approximate kṛd / bhṛd (vowel ṛ). பூத, பவ்ய, பாவ = bhūta, bhavya, bhāva; தரம் = dharam; த்யாயேத் = dhyāyet — aspiration is not shown in Tamil.',
-  source:'Mahabharata, Anushasana Parva. Shown: the customary opening invocation and the first verse of names. Full text: add from a trusted source.'
+  id:'dukha', en:"Durga Dukha Nivarana Ashtakam", ta:"துர்க்கை துக்க நிவாரண அஷ்டகம்", target:1, needsText:true,
+  tamil:'', simple:'', iast:'',
+  meaning:"Eight verses to Goddess Durga (Kamakshi) as the remover of sorrow, each ending “Jaya Jaya Shankari … Dukha Nivarani Kamakshi”. Commonly sung on Tuesdays and Fridays and during Rahu Kalam.",
+  flags:'',
+  source:"Text not included. Tap “Edit text” to paste it from your book."
 },
 {
-  id:'kss', en:'Kanda Shasti Kavasam', ta:'கந்த சஷ்டி கவசம்', target:1,
-  tamil:"காப்பு\n\nதுதிப்போர்க்கு வல்வினை போம்; துன்பம்போம்; நெஞ்சில்\nபதிப்போர்க்குச் செல்வம் பலித்துக்-கதித்தோங்கும்\nநிஷ்டையும் கைகூடும், நிமலரருள் கந்தர்\nசஷ்டி கவசம் தனை.\n\nஅமர ரிடர்தீர அமரம் புரிந்த\nகுமரனடி நெஞ்சே குறி.\n\nநூல்\n\nசஷ்டியை நோக்கச் சரவண பவனார்\nசிஷ்டருக் குதவும் செங்கதிர் வேலோன்\nபாதம் இரண்டில் பன்மணிச் சதங்கை\nகீதம் பாடக் கிண்கிணி யாட\n\nமையல் நடனஞ்செய்யும் மயில்வா கனனார்\nகையில் வேலால் எனைக் காக்கவென் றுவந்து\nவரவர வேலா யுதனார் வருக\nவருக வருக மயிலோன் வருக\n\nஇந்திரன் முதலா எண்டிசை போற்றி\nமந்திர வடிவேல் வருக வருக!\nவாசவன் மருகா வருக வருக\nநேசக் குறமகள் நினைவோன் வருக\n\nஆறுமுகம் படைத்த ஐயா வருக\nநீறிடும் வேலவன் நித்தம் வருக\nசிரகிரி வேலவன் சீக்கிரம் வருக!\nசரவண பவனார் சடுதியில் வருக\n\nரஹண பவச ர ர ர ர ர ர ர\nரிஹண பவச ரி ரி ரி ரி ரி ரி ரி\nவிநபவ சரஹண வீரா நமோநம\nநிபவ சரஹண நிறநிற நிறென\n\nவசர வணப வருக வருக\nஅசுரர் குடிகெடுத்த ஐயா வருக\nஎன்னை ஆளும் இளையோன் கையில்\nபன்னிரண் டாயுதம் பாசாங் குசமும்\n\nபரந்த விழிகள் பன்னிரண் டிலங்க\nவிரைந்தெனைக் காக்க வேலோன் வருக\nஐயும் கிலியும் அடைவுடன் சவ்வும்\nஉய்யொளி சௌவும் உயிரையும் கிலியும்\n\nகிலியுஞ் சௌவும் கிளரொளி யையும்\nநிலைபெற் றென்முன் நித்தமும் ஒளிரும்\nசண்முகன் நீயும் தனியொளி யொவ்வும்\nகுண்டலி யாம்சிவ குகன் தினம் வருக!\n\nஆறு முகமும் அணிமுடி ஆறும்\nநீறிடு நெற்றியில் நீண்ட புருவமும்\nபன்னிரு கண்ணும் பவளச்செவ் வாயும்\nநன்னெறி நெற்றியில் நவமணிச் சுட்டியும்\n\nஈராறு செவியில் இலகுகுண் டலமும்\nஆறிரு திண்புயத் தழகிய மார்பில்\nபல்பூ ஷணமும் பதக்கமும் தரித்து\nநன்மணி பூண்ட நவரத்ன மாலையும்\n\nமுப்புரி நூலும் முத்தணி மார்பும்\nசெப்பழ குடைய திருவயி றுந்தியும்\nதுவண்ட மருங்கில் சுடரொளிப் பட்டும்\nநவரத்தினம் பதித்த நற்சீ ராவும்\n\nஇருதொடை யழகும் இணைமுழந் தாளும்\nதிருவடி யதனில் சிலம்பொலி முழங்க\nசெககண செககண செககண செகண\nமொகமொக மொகமொக மொகமொக மொகென\n\nநகநக நகநக நகநக நகென\nடிகுகுண டிகுடிகு டிகுகுண டிகுண\nரரரர ரரரர ரரரர ரரர\nரிரிரிரி ரிரிரிரி ரிரிரிரி ரிரிரி\n\nடுடுடுடு டுடுடுடு டுடுடுடு டுடுடு\nடகுடகு டிகுடிகு டங்கு டிங்குகு\nவிந்து விந்து மயிலோன் விந்து\nமுந்து முந்து முருகவேள் முந்து\n\nஎன்றனை யாளும் ஏரகச் செல்வ\nமைந்தன் வேண்டும் வரமகிழ்ந் துதவும்\nலாலா லாலா லாலா வேசமும்\nலீலா லீலா லீலா வினோ தனென்று\n\nஉன் திருவடியை உறுதியென் றெண்ணும்\nஎந்தலை வைத்துன் இணையடி காக்க\nஎன்னுயிர்க் குயிராம் இறைவன் காக்க\nபன்னிரு விழியால் பாலனைக் காக்க\n\nஅடியேன் வதனம் அழகுவேல் காக்க\nபொடிபுனை நெற்றியைப் புனிதவேல் காக்க\nகதிர்வேல் இரண்டும் கண்ணினைக் காக்க\nவிழி செவி இரண்டும் வேலவர் காக்க\n\nநாசிகளி ரண்டும் நல்வேல் காக்க\nபேசிய வாய்தனைப் பெருவேல் காக்க\nமுப்பத் திருபல் முனைவேல் காக்க\nசெப்பிய நாவைச் செவ்வேல் காக்க\n\nகன்னமி ரண்டும் கதிர்வேல் காக்க\nஎன்னிளங் கழுத்தை இனியவேல் காக்க\nமார்பை ரத்ன வடிவேல் காக்க\nசேரிள முலைமார் திருவேல் காக்க\n\nவடிவே லிருதோள் வளம்பெறக் காக்க\nபிடரிக ளிரண்டும் பெருவேல் காக்க\nஅழகுடன் முதுகை அருள்வேல் காக்க\nபழுபதி னாறும் பருவேல் காக்க\n\nவெற்றிவேல் வயிற்றை விளங்கவே காக்க\nசிற்றிடை யழகுறச் செவ்வேல் காக்க\nநாணாங் கயிற்றை நல்வேல் காக்க\nஆண் குறியிரண்டும் அயில்வேல் காக்க\n\nபிட்ட மிரண்டும் பெருவேல் காக்க\nவட்டக் குதத்தை வடிவேல் காக்க\nபணைத் தொடை இரண்டும் பருவேல் காக்க\n\nகணைக்கால் முழந்தாள் கதிர்வேல் காக்க\nஐவிரல் அடியினை அருள்வேல் காக்க\nகைகளி ரண்டும் கருணைவேல் காக்க\n\nமுன்கையி ரண்டும் முரண்வேல் காக்க\nபின்கையி ரண்டும் பின்னவள் இருக்க\nநாவில் சரஸ்வதி நற்றுணை யாக\nநாபிக் கமலம் நல்வேல் காக்க\nமுப்பால் நாடியை முனைவேல் காக்க\n\nஎப்பொழு தும்எனை எதிர்வேல் காக்க\nஅடியேன் வசனம் அசைவுள நேரம்\nகடுகவே வந்து கனகவேல் காக்க\nவரும்பகல் தன்னில் வச்சிரவேல் காக்க\nஅரையிருள் தன்னில் அனையவேல் காக்க\n\nஏமத்தில் சாமத்தில் எதிர்வேல் காக்க\nதாமதம் நீக்கிச் சதுர்வேல் காக்க\nகாக்க காக்க கனகவேல் காக்க\nநோக்க நோக்க நொடியில் நோக்க\nதாக்க தாக்க தடையறத் தாக்க\n\nபார்க்க பார்க்க பாவம் பொடிபட\nபில்லி சூனியம் பெரும்பகை அகல\nவல்ல பூதம் வலாட்டிகப் பேய்கள்\nஅல்லற் படுத்தும் அடங்கா முனியும்\nபிள்ளைகள் தின்னும் புழக்கடை முனியும்\n\nகொள்ளிவாய்ப் பேய்களும், குறளைப் பேய்களும்\nபெண்களைத் தொடரும் பிரமராட் சதரும்\nஅடியனைக் கண்டால் அலறிக் கலங்கிட\nஇரிசு காட்டேரி இத்துன்ப சேனையும்\nஎல்லிலும் இருட்டிலும் எதிர்ப்படும் அண்ணரும்\n\nகனபூசை கொள்ளும் காளியோ டனைவரும்\nவிட்டாங் காரரும் மிகுபல பேய்களும்\nதண்டியக் காரரும் சண்டாளர் களும்\nஎன்பெயர் சொல்லவும் இடிவிழுந் தோடிட\n\nஆனை யடியினில் அரும்பா வைகளும்\nபூனை மயிரும் பிள்ளைகள் என்பும்\nநகமும் மயிரும் நீள்முடி மண்டையும்\nபாவைக ளுடனே பலகல சத்துடன்\n\nமனையிற் புதைத்த வஞ்சனை தனையும்\nஒட்டியச் செருக்கும் ஒட்டிய பாவையும்\nகாசும் பணமும் காவுடன் சோறும்\nஓதும் அஞ்சனமும் ஒருவழிப் போக்கும்\n\nஅடியனைக் கண்டால் அலைந்து குலைந்திட\nமாற்றார் வஞ்சகர் வந்து வணங்கிட\nகாலதூ தாளெனைக் கண்டாற் கலங்கிட\nஅஞ்சி நடுங்கிட அரண்டு புரண்டிட\n\nவாய்விட் டலறி மதிகெட் டோட\nபடியினில் முட்ட பாசக் கயிற்றால்\nகட்டுடன் அங்கம் கதறிடக் கட்டு\nகட்டி உருட்டு கைகால் முறிய\n\nகட்டு கட்டு கதறிடக் கட்டு\nமுட்டு முட்டு முழிகள் பிதுங்கிட\nசெக்கு செக்கு செதில் செதிலாக\nசொக்கு சொக்கு சூர்ப்பகைச் சொக்கு\n\nகுத்து குத்து கூர்வடி வேலால்\nபற்று பற்று பகலவன் தணலெரி\nதணலெரி தணலெரி தணலது வாக\nவிடு விடு வேலை வெகுண்டது வோடப்\n\nபுலியும் நரியும் புன்னரி நாயும்\nஎலியும் கரடியும் இனித் தொடர்ந் தோட\nதேளும் பாம்பும் செய்யான் பூரான்\nகடிவிட விஷங்கள் கடித்துய ரங்கம்\n\nஏறிய விஷங்கள் எளிதுடன் இறங்க\nஒளிப்புஞ் சுளுக்கும் ஒருதலை நோயும்\nவாதஞ் சயித்தியம் வலிப்புப் பித்தம்\nசூலைசயங் குன்மம் சொக்குச் சிரங்கு\n\nகுடைச்சல் சிலந்தி குடல்விப் பிரிதி\nபக்கப் பிளவை படர்தொடை வாழை\nகடுவன் படுவன் கைத்தாள் சிலந்தி\nபற்குத் தரணை பருஅரை யாப்பும்\n\nஎல்லாப் பிணியும் என்றனைக் கண்டால்\nநில்லா தோட நீஎனக் கருள்வாய்\nஈரேழு உலகமும் எனக் குறவாக\nஆணும் பெண்ணும் அனைவரும் எனக்கா\n\nமண்ணா ளரசரும் மகிழ்ந்துற வாகவும்\nஉன்னைத் துதிக்க உன் திரு நாமம்\nசரவண பவனே சைலொளி பவனே\nதிரிபுர பவனே திகழொளி பவனே\n\nபரிபுர பவனே பவமொளி பவனே\nஅரிதிரு மருகா அமரா வதியைக்\nகாத்துத் தேவர்கள் கடும்சிறை விடுத்தாய்\nகந்தா குகனே கதிர்வே லவனே\n\nகார்த்திகை மைந்தா கடம்பா கடம்பனை\nஇடும்பனை யழித்த இனியவேல் முருகா\nதனிகா சலனே சங்கரன் புதல்வா\nகதிர்கா மத்துறை கதிர்வேல் முருகா\n\nபழநிப் பதிவாழ் பாலகு மாரா\nஆவினன் குடிவாழ் அழகிய வேலா\nசெந்தின்மா மலையுறும் செங்கல்வ ராயா\nசமரா புரிவாழ் சண்முகத் தரசே\n\nகாரார் குழலாள் கலைமகள் நன்றாய்\nஎன்நா இருக்க யானுனைப் பாட\nஎனைத் தொடர்ந்திருக்கும் எந்தை முருகனைப்\nபாடினேன் ஆடினேன் பரவச மாக\n\nஆடினேன் நாடினேன் ஆவினன் பூதியை\nநேச முடன்யான் நெற்றியில் அணிய\nபாச வினைகள் பற்றது நீங்கி\nஉன்பதம் பெறவே உன்னரு ளாக\n\nஅன்புடன் இரட்சி அன்னமுஞ் சொன்னமும்\nமெத்தமெத் தாக வேலா யுதனார்\nசித்திபெற் றடியேன் சிறப்புடன் வாழ்க\nவாழ்க வாழ்க மயிலோன் வாழ்க\n\nவாழ்க வாழ்க வடிவேல் வாழ்க\nவாழ்க வாழ்க மலைக்குரு வாழ்க\nவாழ்க வாழ்க மலைக்குற மகளுடன்\nவாழ்க வாழ்க வாரணத் துவசம்\n\nவாழ்க வாழ்கஎன் வறுமைகள் நீங்க\nஎத்தனை குறைகள் எத்தனை பிழைகள்\nஎத்தனை அடியேன் எத்தனை செயினும்\nபெற்றவன் நீகுரு பொறுப்பது உன்கடன்\n\nபெற்றவள் குறமகள் பெற்றவ ளாமே\nபிள்ளையென் றன்பாய்ப் பிரிய மளித்து\nமைந்தனென் மீதுன் மனமகிழ்ந் தருளித்\nதஞ்சமென் றடியார் தழைத்திட அருள்செய்\n\nகந்தர் சஷ்டி கவசம் விரும்பிய\nபாலன் தேவ ராயன் பகர்ந்ததைக்\nகாலையில் மாலையில் கருத்துடன் நாளும்\nஆசா ரத்துடன் அங்கந் துலக்கி\n\nநேசமுடன் ஒரு நினைவது வாகிக்\nகந்தர் சஷ்டிக் கவசம் இதனைச்\nசிந்தை கலங்காது தியானிப் பவர்கள்\nஒருநாள் முப்பத் தாறுருக் கொண்டு\nஓதியே ஜெபித்து உகந்துநீ றணிய\n\nஅஷ்டதிக் குள்ளோர் அடங்கலும் வசமாய்த்\nதிசைமன்ன ரெண்மர் செயலது அருளுவர்\nமாற்றவ ரல்லாம் வந்து வணங்குவர்\n\nநவகோள் மகிழ்ந்து நன்மை யளித்திடும்\nநவமதனெனவும் நல்லெழில் பெறுவர்\nஎந்த நாளும் ஈரெட்டாய் வாழ்வார்\nகந்தர்கை வேலாம் கவசத் தடியை\n\nவழியாய்க் காண மெய்யாய் விளங்கும்\nவிழியாற் காண வெருண்டிடும் பேய்கள்\nபொல்லா தவரைப் பொடிபொடி யாக்கும்\nநல்லோர் நினைவில் நடனம் புரியும்\n\nசர்வ சத்ரு சங்கா ரத்தடி\nஅறிந்தென துள்ளம் அஷ்ட லட்சுமிகளில்\nவீரலட் சுமிக்கு விருந்துண வாகச்\nசூரபத் மாவைத் துணித்தகை யதனால்\nஇருபத் தேழ்வர்க் குவந்தமு தளித்த\n\nகுருபரன் பழநிக் குன்றினி லிருக்கும்\nசின்னக் குழந்தை சேவடி போற்றி!\nஎனைத்தடுத் தாட்கொள என்றன துள்ளம்\n\nமேவிய வடிவுறும் வேலவா போற்றி!\nதேவர்கள் சேனா பதியே போற்றி!\nகுறமகள் மனமகிழ் கோவே போற்றி!\nதிறமிகு திவ்விய தேகா போற்றி!\n\nஇடும்பா யுதனே இடும்பா போற்றி!\nகடம்பா போற்றி கந்தா போற்றி!\nவெட்சி புனையும் வேலே போற்றி!\nஉயர்கிரி கனக சபைக்கோ ரரசே!\n\nமயில்நட மிடுவோய் மலரடி சரணம்!\nசரணம் சரணம் சரவண பவஓம்\nசரணம் சரணம் சண்முகா சரணம்!\nசரணம் சரணம் சண்முகா சரணம்!",
-  simple:"Thuthipporku Valvinaipom Thunbampom\nNenjil Pathipporku Selvam Palithuk Kathithongum\nNishtaiyum Kaikoodum\nNimalar Arul Kanthar Sashti Kavacham Thanai\n\nAmarar Idar Theera Amaram Purintha\nKumaranadi Nenjeh Kuri\n\nSashtiyai Nokka Saravana Bavanaar\nSishtarukku Uthavum Sengkathir Velon\nPaatham Irandil Panmani Sathangai\nGeetham Paada Kinkini Yaada\nMaiya Nadam Seiyum Mayil Vahananaar\n\nKaiyil Velaal Yenaik Kaakka Vendru Vanthu\nVaravara Velah Yuthanaar Varuha\nVaruha Varuha Mayilon Varuha\nInthiran Mudhalaa Yendisai Potra\nManthira Vadivel Varuha Varuha\n\nVaasavan Maruhaa Varuha Varuha\nNesak Kuramahal Ninaivon Varuha\nAarumuham Padaitha Aiyaa Varuha\nNeeridum Velavan Nitham Varuha\nSirahiri Velavan Seekkiram Varuha\n\nSaravana Bavanaar Saduthiyil Varuha\nRahana Bavasa Ra Ra Ra Ra Ra Ra Ra\nRihana Bavasa Ri Ri Ri Ri Ri Ri Ri\nVinabava Sarahana Veeraa Namo Nama\nNibava Sarahana Nira Nira Nirena\n\nVasara Hanabava Varuha Varuha\nAsurar Kudi Kedutha Aiyaa Varuha\nYennai Yaalum Ilaiyon Kaiyil\nPannirendu Aayutham Paasaan Gusamum\nParantha Vizhihal Pannirandu Ilanga\n\nVirainthu Yenaik Kaakka Velon Varuha\nAiyum Kiliyum Adaivudan Sauvum\nUyyoli Sauvum Uyiraiyum Kiliyum\nKiliyum Sauvum Kilaroli Yaiyum\nNilai Petrenmun Nithamum Olirum\n\nShanmuhan Neeyum Thaniyoli Yovvum\nKundaliyaam Siva Guhan Thinam Varuha\nAaru Muhamum Animudi Aarum\nNeeridu Netriyum Neenda Puruvamum\nPanniru Kannum Pavalach Chevvaayum\n\nNanneri Netriyil Navamanich Chuttiyum\nEeraaru Seviyil Ilahu Kundalamum\nAariru Thinpuyathu Azhahiya Maarbil\nPalboo Shanamum Pathakkamum Tharithu\nNanmanipoonda Navarathna Maalaiyum\n\nMuppuri Noolum Muthani Maarbum\nSepppazhahudaiya Thiruvayir Unthiyum\nThuvanda Marungil Sudaroli Pattum\nNavarathnam Pathitha Nartchee Raavum\nIruthodai Azhahum Inai Muzhanthaalum\n\nThiruvadi Yathanil Silamboli Muzhanga\nSeha Gana Seha Gana Seha Gana Segana\nMoga Moga Moga Moga Moga Moga Mogana\nNaha Naha Naha Naha Naha Naha Nahena\nDigu Kuna Digu Digu Digu Kuna Diguna\n\nRa Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra Ra\nRi Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri Ri\nDu Du Du Du Du Du Du Du Du Du Du Du Du Du Du\nDagu Dagu Digu Digu Dangu Dingugu\nVinthu Vinthu Mayilon Vinthu\n\nMunthu Munthu Muruhavel Munthu\nYenthanai Yaalum Yehraha Selva\nMainthan Vehndum Varamahizhnth Thuthavum\nLaalaa Laalaa Laalaa Vehshamum\nLeelaa Leelaa Leelaa Vinothanendru\n\nUnthiru Vadiyai Uruthi Yendrennum\nYen Thalai Vaithun Yinaiyadi Kaaka\nYennuyirk Uyiraam Iraivan Kaaka\nPanniru Vizhiyaal Baalanaik Kaaka\nAdiyen Vathanam Azhahuvel Kaaka\n\nPodipunai Netriyaip Punithavel Kaaka\nKathirvel Irandu Kanninaik Kaaka\nVithisevi Irandum Velavar Kaaka\nNaasihal Irandum Nalvel Kaaka\nPesiya Vaaythanai Peruvel Kaaka\n\nMuppathirupal Munaivel Kaaka\nSeppiya Naavai Sevvel Kaaka\nKannam Irandum Kathirvel Kaaka\nYennilang Kazhuthai Iniyavel Kaaka\nMaarbai Irathna Vadivel Kaaka\n\nSerila Mulaimaar Thiruvel Kaaka\nVadivel Iruthol Valamberak Kaaka\nPidarihal Irandum Peruvel Kaaka\nAzhahudan Muthuhai Arulvel Kaaka\nPazhu Pathinaarum Paruvel Kaaka\n\nVetrivel Vayitrai Vilangave Kaaka\nSitridai Azhahura Sevvel Kaaka\nNaanaam Kayitrai Nalvel Kaaka\nAan Penn Kurihalai Ayilvel Kaaka\nPittam Irandum Peruvel Kaaka\n\nVattak Kuthathai Valvel Kaaka\nPanai Thodai Irandum Paruvel Kaaka\nKanaikaal Muzhanthaal Kathirvel Kaaka\nAiviral Adiyinai Arulvel Kaaka\nKaihal Irandum Karunaivel Kaaka\n\nMunkai Irandum Muranvel Kaaka\nPinkai Irandum Pinnaval Irukka\nNaavil Sarasvathi Natrunai Yaaha\nNaabik Kamalam Nalvel Kakka\nMuppaal Naadiyai Munaivel Kaaka\n\nYeppozhuthum Yenai Yethirvel Kaaka\nAdiyen Vasanam Asaivula Neram\nKaduhave Vanthu Kanahavel Kaaka\nVarum Pahal Thannil Vachravel Kaaka\nArai Irul Thannil Anaiyavel Kaaka\n\nYemathil Saamathil Yethirvel Kaaka\nThaamatham Neeki Chathurvel Kaaka\nKaaka Kaaka Kanahavel Kaaka\nNoaka Noaka Nodiyil Noaka\nThaakka Thaakka Thadaiyara Thaakka\n\nPaarka Paarka Paavam Podipada\nBilli Soonyam Perumpahai Ahala\nValla Bootham Valaashtihap Peihal\nAllal Paduthum Adangaa Muniyum\nPillaihal Thinnum Puzhakadai Muniyum\n\nKollivaayp Peihalum Kuralaip Peihalum\nPenkalai Thodarum Bramaraa Chatharum\nAdiyanaik Kandaal Alari Kalangida\nIrisi Kaatteri Ithunba Senaiyum\nYellilum Iruttilum Yethirpadum Mannarum\n\nKana Pusai Kollum Kaaliyodu Anaivarum\nVittaan Gaararum Migu Pala Peihalum\nThandiyak Kaararum Sandaalar Halum\nYen Peyar Sollavum Idi Vizhunthodida\nAanai Adiyinil Arum Paavaihalum\n\nPoonai Mayirum Pillaihal Enpum\nNahamum Mayirum Neenmudi Mandaiyum\nPaavaihal Udane Pala Kalasathudan\nManaiyil Puthaitha Vanjanai Thanaiyum\nOttiya Paavaiyum Ottiya Serukkum\n\nKaasum Panamum Kaavudan Sorum\nOthu Manjanamum Oruvazhi Pokum\nAdiyanaik Kandaal Alainthu Kulainthida\nMaatran Vanjahar Vanthu Vanangida\nKaala Thoothaal Yenai Kandaal Kalangida\n\nAnji Nadungida Arandu Purandida\nVaay Vittalari Mathi Kettoda\nPadiyinil Mutta Paasak Kayitraal\nKattudan Angam Katharida Kattu\nKatti Uruttu Kaal Kai Muriya\n\nKattu Kattu Katharida Kattu\nMuttu Muttu Muzhihal Pithungida\nSekku Sekku Sethil Sethilaaha\nSokku Sokku Soorpahai Sokku\nKuthu Kuthu Koorvadi Velaal\n\nPatru Patru Pahalavan Thanaleri\nThanaleri Thanaleri Thanalathuvaaha\nViduvidu Velai Verundathu Oda\nPuliyum Nariyum Punnari Naayum\nYeliyum Karadiyum Inithodarnthu Oda\n\nThelum Paambum Seyyaan Pooraan\nKadivida Vishangal Kadithuyar Angam\nYeriya Vishangal Yelithudan Iranga\nPolippum Sulukkum Oruthalai Noyum\nVaatham Sayithiyam Valippu Pitham\n\nSoolai Sayam Kunmam Sokku Sirangu\nKudaichal Silanthi Kudalvip Purithi\nPakka Pilavai Padarthodai Vaazhai\nKaduvan Paduvan Kaithaal Silanthi\nParkuthu Aranai Paru Arai Yaakkum\n\nYellap Piniyum Yendranaik Kandaal\nNillaa Thoda Nee Yenak Arulvaay\nEerezhula Hamum Yenak Uravaaha\nAanum Pennum Anaivarum Yenakkaa\nMannaal Arasarum Mahizhnthura Vaahavum\n\nUnnai Thuthikka Un Thirunaamam\nSaravana Bavane Sailoli Bavanee\nThirupura Bavane Thigazholi Bavane\nParipura Bavane Pavamozhi Bavane\nArithiru Maruhaa Amaraa Pathiyai\n\nKaathu Thevarkal Kadum Sirai Viduthaay\nKanthaa Guhane Kathir Velavane\nKaarthihai Mainthaa Kadambaa Kadambanai\nIdumbanai Yazhitha Iniyavel Muruhaa\nThanihaa Salane Sangaran Puthalvaa\n\nKathirkaa Mathurai Kathirvel Muruhaa\nPazhani Pathivaazh Baala Kumaaraa\nAavinan Kudivaazh Azhahiya Vela\nSenthil Maamalai Yurum Sengalva Raayaa\nSamaraa Purivaazh Shanmuha Tharase\n\nKaarar Kuzhalaal Kalaimahal Nandraay\nYennaa Irukka Yaan Unai Paada\nYenai Thodarnthu Irukkum Yenthai Muruhanai\nPadinen Aadinen Paravasa Maaha\nAadinen Naadinen Aavinan Poothiyey\n\nNesamudan Yaan Netriyil Aniya\nPaasa Vinaihal Patrathu Neengi\nUnpatham Perave Unnarulaaha\nAnbudan Rakshi Annamum Sonnamum\nMetha Methaaha Velaayu Thanaar\n\nSithi Petradiyen Sirappudan Vazhga\nVaazhga Vaazhga Mayilon Vaazhga\nVaazhga Vaazhga Vadivel Vaazhga\nVaazhga Vaazhga Malai Guru Vaazhga\nVaazhga Vaazhga Malai Kura Mahaludan\n\nVaazhga Vaazhga Vaarana Thuvasam\nVaazhga Vaazhga Yen Varumaihal Neenga\nYethanai Kuraihal Yethanai Pizhaihal\nYethanai Adiyen Yethanai Seiyinum\nPetravan Neeguru Poruppathu Unkadan\n\nPetraval Kuramahal Petravalaame\nPillai Yendranbaay Piriya Malithu\nMainthan Yenmeethu Unmanam Mahizhntharuli\nThanjam Yendradiyaar Thazhaithida Arulsey\nKanthar Sashti Kavasam Virumbiya\n\nBaalan Theva Raayan Paharn Thathai\nKaalaiyil Maalaiyil Karuthudan Naalum\nAasaa Rathudan Angam Thulakki\nNesamudan Oru Ninaivathu Vaahi\nKanthar Sashti Kavasam Ithanai\n\nSindhai Kalangaathu Thiyaani Pavarhal\nOrunaal Muppathaa Ruru Kondu\nOthiyeh Jebithu Uhanthu Neeraniya\nAshta Thikkullor Adangalum Vasamaay\nThisai Mannar Yenmar Seyalathu (Sernthangu) Arulvar\nMaatrala Rellaam Vanthu Vananguvar\nNavakol Mahizhnthu Nanmai Alithidum\nNavamatha Nenavum Nallezhil Peruvar\nEnthanaalum Eerettaay Vaazhvar\nKantharkai Velaam Kavasa Thadiyai\n\nVazhiyaay Kaana Meiyaay Vilangum\nVizhiyaal Kaana Verundidum Peigal\nPollathavarai Podi Podi Yaakkum\nNallor Ninaivil Nadanam Puriyum\nSarva Sathuru Sankaa Rathadi\n\nArintha Yenathullaam Ashta Letchmihalil\nVeera Letchmikku Virun Thunavaaha\nSoora Bathmaavaith Thunithagai Yathanaal\nIruba Thezhvarkku Uvan Thamuthalitha\nGurubaran Pazhani Kundrinil Irukkum\n\nChinna Kuzhanthai Sevadi Potri\nYenai Thadu Thaatkola Yendrana Thullum\nMeviya Vadivurum Velava Potri\nThevargal Senaa Pathiye Potri\nKuramahal Manamahizh Kove Potri\n\nThiramihu Thivya Thehaa Potri\nIdumbaa Yuthane Idumbaa Potri\nKadambaa Potri Kanthaa Potri\nVetchi Punaiyum Veleh Potri\nUyargiri Kanaha Sabaikor Arase\n\nMayilnada Miduvoy Malaradi Saranam\nSaranam Saranam Saravanabava Om\nSaranam Saranam Shanmuhaa Saranam\nSaranam Saranam Shanmuhaa Saranam",
-  iast:"kāppu\n\ntutippōrkku valviṉai pōm; tuṉpampōm; neñcil\npatippōrkkuc celvam palittuk-katittōṅkum\nniṣṭaiyum kaikūṭum, nimalararuḷ kantar\ncaṣṭi kavacam taṉai.\n\namara riṭartīra amaram purinta\nkumaraṉaṭi neñcē kuṟi.\n\nnūl\n\ncaṣṭiyai nōkkac caravaṇa pavaṉār\nciṣṭaruk kutavum ceṅkatir vēlōṉ\npātam iraṇṭil paṉmaṇic cataṅkai\nkītam pāṭak kiṇkiṇi yāṭa\n\nmaiyal naṭaṉañceyyum mayilvā kaṉaṉār\nkaiyil vēlāl eṉaik kākkaveṉ ṟuvantu\nvaravara vēlā yutaṉār varuka\nvaruka varuka mayilōṉ varuka\n\nintiraṉ mutalā eṇṭicai pōṟṟi\nmantira vaṭivēl varuka varuka!\nvācavaṉ marukā varuka varuka\nnēcak kuṟamakaḷ niṉaivōṉ varuka\n\nāṟumukam paṭaitta aiyā varuka\nnīṟiṭum vēlavaṉ nittam varuka\ncirakiri vēlavaṉ cīkkiram varuka!\ncaravaṇa pavaṉār caṭutiyil varuka\n\nrahaṇa pavaca ra ra ra ra ra ra ra\nrihaṇa pavaca ri ri ri ri ri ri ri\nvinapava carahaṇa vīrā namōnama\nnipava carahaṇa niṟaniṟa niṟeṉa\n\nvacara vaṇapa varuka varuka\nacurar kuṭikeṭutta aiyā varuka\neṉṉai āḷum iḷaiyōṉ kaiyil\npaṉṉiraṇ ṭāyutam pācāṅ kucamum\n\nparanta viḻikaḷ paṉṉiraṇ ṭilaṅka\nvirainteṉaik kākka vēlōṉ varuka\naiyum kiliyum aṭaivuṭaṉ cavvum\nuyyoḷi cauvum uyiraiyum kiliyum\n\nkiliyuñ cauvum kiḷaroḷi yaiyum\nnilaipeṟ ṟeṉmuṉ nittamum oḷirum\ncaṇmukaṉ nīyum taṉiyoḷi yovvum\nkuṇṭali yāmciva kukaṉ tiṉam varuka!\n\nāṟu mukamum aṇimuṭi āṟum\nnīṟiṭu neṟṟiyil nīṇṭa puruvamum\npaṉṉiru kaṇṇum pavaḷaccev vāyum\nnaṉṉeṟi neṟṟiyil navamaṇic cuṭṭiyum\n\nīrāṟu ceviyil ilakukuṇ ṭalamum\nāṟiru tiṇpuyat taḻakiya mārpil\npalpū ṣaṇamum patakkamum tarittu\nnaṉmaṇi pūṇṭa navaratṉa mālaiyum\n\nmuppuri nūlum muttaṇi mārpum\nceppaḻa kuṭaiya tiruvayi ṟuntiyum\ntuvaṇṭa maruṅkil cuṭaroḷip paṭṭum\nnavarattiṉam patitta naṟcī rāvum\n\nirutoṭai yaḻakum iṇaimuḻan tāḷum\ntiruvaṭi yataṉil cilampoli muḻaṅka\ncekakaṇa cekakaṇa cekakaṇa cekaṇa\nmokamoka mokamoka mokamoka mokeṉa\n\nnakanaka nakanaka nakanaka nakeṉa\nṭikukuṇa ṭikuṭiku ṭikukuṇa ṭikuṇa\nrararara rararara rararara rarara\nriririri riririri riririri ririri\n\nṭuṭuṭuṭu ṭuṭuṭuṭu ṭuṭuṭuṭu ṭuṭuṭu\nṭakuṭaku ṭikuṭiku ṭaṅku ṭiṅkuku\nvintu vintu mayilōṉ vintu\nmuntu muntu murukavēḷ muntu\n\neṉṟaṉai yāḷum ērakac celva\nmaintaṉ vēṇṭum varamakiḻn tutavum\nlālā lālā lālā vēcamum\nlīlā līlā līlā viṉō taṉeṉṟu\n\nuṉ tiruvaṭiyai uṟutiyeṉ ṟeṇṇum\nentalai vaittuṉ iṇaiyaṭi kākka\neṉṉuyirk kuyirām iṟaivaṉ kākka\npaṉṉiru viḻiyāl pālaṉaik kākka\n\naṭiyēṉ vataṉam aḻakuvēl kākka\npoṭipuṉai neṟṟiyaip puṉitavēl kākka\nkatirvēl iraṇṭum kaṇṇiṉaik kākka\nviḻi cevi iraṇṭum vēlavar kākka\n\nnācikaḷi raṇṭum nalvēl kākka\npēciya vāytaṉaip peruvēl kākka\nmuppat tirupal muṉaivēl kākka\nceppiya nāvaic cevvēl kākka\n\nkaṉṉami raṇṭum katirvēl kākka\neṉṉiḷaṅ kaḻuttai iṉiyavēl kākka\nmārpai ratṉa vaṭivēl kākka\ncēriḷa mulaimār tiruvēl kākka\n\nvaṭivē lirutōḷ vaḷampeṟak kākka\npiṭarika ḷiraṇṭum peruvēl kākka\naḻakuṭaṉ mutukai aruḷvēl kākka\npaḻupati ṉāṟum paruvēl kākka\n\nveṟṟivēl vayiṟṟai viḷaṅkavē kākka\nciṟṟiṭai yaḻakuṟac cevvēl kākka\nnāṇāṅ kayiṟṟai nalvēl kākka\nāṇ kuṟiyiraṇṭum ayilvēl kākka\n\npiṭṭa miraṇṭum peruvēl kākka\nvaṭṭak kutattai vaṭivēl kākka\npaṇait toṭai iraṇṭum paruvēl kākka\n\nkaṇaikkāl muḻantāḷ katirvēl kākka\naiviral aṭiyiṉai aruḷvēl kākka\nkaikaḷi raṇṭum karuṇaivēl kākka\n\nmuṉkaiyi raṇṭum muraṇvēl kākka\npiṉkaiyi raṇṭum piṉṉavaḷ irukka\nnāvil carasvati naṟṟuṇai yāka\nnāpik kamalam nalvēl kākka\nmuppāl nāṭiyai muṉaivēl kākka\n\neppoḻu tumeṉai etirvēl kākka\naṭiyēṉ vacaṉam acaivuḷa nēram\nkaṭukavē vantu kaṉakavēl kākka\nvarumpakal taṉṉil vacciravēl kākka\naraiyiruḷ taṉṉil aṉaiyavēl kākka\n\nēmattil cāmattil etirvēl kākka\ntāmatam nīkkic caturvēl kākka\nkākka kākka kaṉakavēl kākka\nnōkka nōkka noṭiyil nōkka\ntākka tākka taṭaiyaṟat tākka\n\npārkka pārkka pāvam poṭipaṭa\npilli cūṉiyam perumpakai akala\nvalla pūtam valāṭṭikap pēykaḷ\nallaṟ paṭuttum aṭaṅkā muṉiyum\npiḷḷaikaḷ tiṉṉum puḻakkaṭai muṉiyum\n\nkoḷḷivāyp pēykaḷum, kuṟaḷaip pēykaḷum\npeṇkaḷait toṭarum piramarāṭ catarum\naṭiyaṉaik kaṇṭāl alaṟik kalaṅkiṭa\niricu kāṭṭēri ittuṉpa cēṉaiyum\nellilum iruṭṭilum etirppaṭum aṇṇarum\n\nkaṉapūcai koḷḷum kāḷiyō ṭaṉaivarum\nviṭṭāṅ kārarum mikupala pēykaḷum\ntaṇṭiyak kārarum caṇṭāḷar kaḷum\neṉpeyar collavum iṭiviḻun tōṭiṭa\n\nāṉai yaṭiyiṉil arumpā vaikaḷum\npūṉai mayirum piḷḷaikaḷ eṉpum\nnakamum mayirum nīḷmuṭi maṇṭaiyum\npāvaika ḷuṭaṉē palakala cattuṭaṉ\n\nmaṉaiyiṟ putaitta vañcaṉai taṉaiyum\noṭṭiyac cerukkum oṭṭiya pāvaiyum\nkācum paṇamum kāvuṭaṉ cōṟum\nōtum añcaṉamum oruvaḻip pōkkum\n\naṭiyaṉaik kaṇṭāl alaintu kulaintiṭa\nmāṟṟār vañcakar vantu vaṇaṅkiṭa\nkālatū tāḷeṉaik kaṇṭāṟ kalaṅkiṭa\nañci naṭuṅkiṭa araṇṭu puraṇṭiṭa\n\nvāyviṭ ṭalaṟi matikeṭ ṭōṭa\npaṭiyiṉil muṭṭa pācak kayiṟṟāl\nkaṭṭuṭaṉ aṅkam kataṟiṭak kaṭṭu\nkaṭṭi uruṭṭu kaikāl muṟiya\n\nkaṭṭu kaṭṭu kataṟiṭak kaṭṭu\nmuṭṭu muṭṭu muḻikaḷ pituṅkiṭa\ncekku cekku cetil cetilāka\ncokku cokku cūrppakaic cokku\n\nkuttu kuttu kūrvaṭi vēlāl\npaṟṟu paṟṟu pakalavaṉ taṇaleri\ntaṇaleri taṇaleri taṇalatu vāka\nviṭu viṭu vēlai vekuṇṭatu vōṭap\n\npuliyum nariyum puṉṉari nāyum\neliyum karaṭiyum iṉit toṭarn tōṭa\ntēḷum pāmpum ceyyāṉ pūrāṉ\nkaṭiviṭa viṣaṅkaḷ kaṭittuya raṅkam\n\nēṟiya viṣaṅkaḷ eḷituṭaṉ iṟaṅka\noḷippuñ cuḷukkum orutalai nōyum\nvātañ cayittiyam valippup pittam\ncūlaicayaṅ kuṉmam cokkuc ciraṅku\n\nkuṭaiccal cilanti kuṭalvip piriti\npakkap piḷavai paṭartoṭai vāḻai\nkaṭuvaṉ paṭuvaṉ kaittāḷ cilanti\npaṟkut taraṇai paruarai yāppum\n\nellāp piṇiyum eṉṟaṉaik kaṇṭāl\nnillā tōṭa nīeṉak karuḷvāy\nīrēḻu ulakamum eṉak kuṟavāka\nāṇum peṇṇum aṉaivarum eṉakkā\n\nmaṇṇā ḷaracarum makiḻntuṟa vākavum\nuṉṉait tutikka uṉ tiru nāmam\ncaravaṇa pavaṉē cailoḷi pavaṉē\ntiripura pavaṉē tikaḻoḷi pavaṉē\n\nparipura pavaṉē pavamoḷi pavaṉē\naritiru marukā amarā vatiyaik\nkāttut tēvarkaḷ kaṭumciṟai viṭuttāy\nkantā kukaṉē katirvē lavaṉē\n\nkārttikai maintā kaṭampā kaṭampaṉai\niṭumpaṉai yaḻitta iṉiyavēl murukā\ntaṉikā calaṉē caṅkaraṉ putalvā\nkatirkā mattuṟai katirvēl murukā\n\npaḻanip pativāḻ pālaku mārā\nāviṉaṉ kuṭivāḻ aḻakiya vēlā\ncentiṉmā malaiyuṟum ceṅkalva rāyā\ncamarā purivāḻ caṇmukat taracē\n\nkārār kuḻalāḷ kalaimakaḷ naṉṟāy\neṉnā irukka yāṉuṉaip pāṭa\neṉait toṭarntirukkum entai murukaṉaip\npāṭiṉēṉ āṭiṉēṉ paravaca māka\n\nāṭiṉēṉ nāṭiṉēṉ āviṉaṉ pūtiyai\nnēca muṭaṉyāṉ neṟṟiyil aṇiya\npāca viṉaikaḷ paṟṟatu nīṅki\nuṉpatam peṟavē uṉṉaru ḷāka\n\naṉpuṭaṉ iraṭci aṉṉamuñ coṉṉamum\nmettamet tāka vēlā yutaṉār\ncittipeṟ ṟaṭiyēṉ ciṟappuṭaṉ vāḻka\nvāḻka vāḻka mayilōṉ vāḻka\n\nvāḻka vāḻka vaṭivēl vāḻka\nvāḻka vāḻka malaikkuru vāḻka\nvāḻka vāḻka malaikkuṟa makaḷuṭaṉ\nvāḻka vāḻka vāraṇat tuvacam\n\nvāḻka vāḻkaeṉ vaṟumaikaḷ nīṅka\nettaṉai kuṟaikaḷ ettaṉai piḻaikaḷ\nettaṉai aṭiyēṉ ettaṉai ceyiṉum\npeṟṟavaṉ nīkuru poṟuppatu uṉkaṭaṉ\n\npeṟṟavaḷ kuṟamakaḷ peṟṟava ḷāmē\npiḷḷaiyeṉ ṟaṉpāyp piriya maḷittu\nmaintaṉeṉ mītuṉ maṉamakiḻn taruḷit\ntañcameṉ ṟaṭiyār taḻaittiṭa aruḷcey\n\nkantar caṣṭi kavacam virumpiya\npālaṉ tēva rāyaṉ pakarntataik\nkālaiyil mālaiyil karuttuṭaṉ nāḷum\nācā rattuṭaṉ aṅkan tulakki\n\nnēcamuṭaṉ oru niṉaivatu vākik\nkantar caṣṭik kavacam itaṉaic\ncintai kalaṅkātu tiyāṉip pavarkaḷ\norunāḷ muppat tāṟuruk koṇṭu\nōtiyē jepittu ukantunī ṟaṇiya\n\naṣṭatik kuḷḷōr aṭaṅkalum vacamāyt\nticaimaṉṉa reṇmar ceyalatu aruḷuvar\nmāṟṟava rallām vantu vaṇaṅkuvar\n\nnavakōḷ makiḻntu naṉmai yaḷittiṭum\nnavamataṉeṉavum nalleḻil peṟuvar\nenta nāḷum īreṭṭāy vāḻvār\nkantarkai vēlām kavacat taṭiyai\n\nvaḻiyāyk kāṇa meyyāy viḷaṅkum\nviḻiyāṟ kāṇa veruṇṭiṭum pēykaḷ\npollā tavaraip poṭipoṭi yākkum\nnallōr niṉaivil naṭaṉam puriyum\n\ncarva catru caṅkā rattaṭi\naṟinteṉa tuḷḷam aṣṭa laṭcumikaḷil\nvīralaṭ cumikku viruntuṇa vākac\ncūrapat māvait tuṇittakai yataṉāl\nirupat tēḻvark kuvantamu taḷitta\n\nkuruparaṉ paḻanik kuṉṟiṉi lirukkum\nciṉṉak kuḻantai cēvaṭi pōṟṟi!\neṉaittaṭut tāṭkoḷa eṉṟaṉa tuḷḷam\n\nmēviya vaṭivuṟum vēlavā pōṟṟi!\ntēvarkaḷ cēṉā patiyē pōṟṟi!\nkuṟamakaḷ maṉamakiḻ kōvē pōṟṟi!\ntiṟamiku tivviya tēkā pōṟṟi!\n\niṭumpā yutaṉē iṭumpā pōṟṟi!\nkaṭampā pōṟṟi kantā pōṟṟi!\nveṭci puṉaiyum vēlē pōṟṟi!\nuyarkiri kaṉaka capaikkō raracē!\n\nmayilnaṭa miṭuvōy malaraṭi caraṇam!\ncaraṇam caraṇam caravaṇa pavaōm\ncaraṇam caraṇam caṇmukā caraṇam!\ncaraṇam caraṇam caṇmukā caraṇam!",
-  meaning:'Opening venba: for those who praise the Kanda Shasti Kavasam, the grace of the pure Lord, past karma and sorrow fall away; for those who hold it in their heart, prosperity grows and steady devotion is attained. The Kavasam then calls on Murugan and his Vel to protect every part of the body, at every hour, from all harm and illness, and closes with praise of his shrines and a prayer for his grace.',
-  flags:'Original Tamil by Devaraya Swamigal, so no Sanskrit approximation in the Tamil text. Full text from Tamil Wikisource, with three typos corrected to match common printed editions (தடையறத், நாடினேன், செயலது). The English text is the transliteration you supplied; the IAST view is generated letter by letter from the Tamil. Sandhi spellings vary slightly between printed editions.',
-  source:'Full text: Tamil Wikisource.'
+  id:'ab40', en:"Abirami Andhadhi — Verse 40", ta:"அபிராமி அந்தாதி — பாடல் 40", target:1,
+  tamil:"வாள்-நுதல் கண்ணியை, விண்ணவர் யாவரும் வந்து இறைஞ்சிப்\nபேணுதற்கு எண்ணிய எம்பெருமாட்டியை, பேதை நெஞ்சில்\nகாணுதற்கு அண்ணியள் அல்லாத கன்னியை, காணும்-அன்பு\nபூணுதற்கு எண்ணிய எண்ணம் அன்றோ, முன் செய் புண்ணியமே.",
+  simple:"Vaal-nuthal kanniyai, vinnavar yaavarum vandu irainjip\nPenutharku enniya emberumaathiyai, pethai nenjil\nKaanutharku anniyal allaatha kanniyai, kaanum-anbu\nPoonutharku enniya ennam andro, mun sey punniyame.",
+  iast:"vāḷ-nutal kaṇṇiyai, viṇṇavar yāvarum vantu iṟaiñcip\npēṇutaṟku eṇṇiya emperumāṭṭiyai, pētai neñcil\nkāṇutaṟku aṇṇiyaḷ allāta kaṉṉiyai, kāṇum-aṉpu\npūṇutaṟku eṇṇiya eṇṇam aṉṟō, muṉ cey puṇṇiyamē.",
+  meaning:"To set one’s heart on loving the Maiden of the radiant brow — the Mother whom all the gods come to worship, yet who is hard for a foolish heart to see — is that not the fruit of merit from past births? Traditionally recited for past merit to bear fruit.",
+  flags:"Original Tamil, so no Sanskrit approximation. The English transliteration is generated from the Tamil letter by letter.",
+  source:"Abirami Andhadhi by Abirami Bhattar (18th century), Thirukkadavur. Text: Project Madurai."
 },
-/* ---- Suggested additions ---- */
+{
+  id:'ab59', en:"Abirami Andhadhi — Verse 59", ta:"அபிராமி அந்தாதி — பாடல் 59", target:1,
+  tamil:"தஞ்சம் பிறிது இல்லை ஈது அல்லது, என்று உன் தவநெறிக்கே\nநெஞ்சம் பயில நினைக்கின்றிலேன், ஒற்றை நீள்சிலையும்\nஅஞ்சு அம்பும் இக்கு அலராகி நின்றாய்: அறியார் எனினும்\nபஞ்சு அஞ்சு மெல் அடியார், அடியார் பெற்ற பாலரையே.",
+  simple:"Thanjam pirithu illai eethu allathu, endru un thavanerikke\nNenjam payila ninaikkindrilen, othrai neelchilaiyum\nAnju ambum ikku alaraagi nindraay: ariyaar eninum\nPanju anju mel adiyaar, adiyaar pethra paalaraiye.",
+  iast:"tañcam piṟitu illai ītu allatu, eṉṟu uṉ tavaneṟikkē\nneñcam payila niṉaikkiṉṟilēṉ, oṟṟai nīḷcilaiyum\nañcu ampum ikku alarāki niṉṟāy: aṟiyār eṉiṉum\npañcu añcu mel aṭiyār, aṭiyār peṟṟa pālaraiyē.",
+  meaning:"I know there is no refuge but you, yet my heart does not keep to your path. You stand holding the single long bow of sugarcane and the five flower arrows. Even when children do not know better, does the Mother with feet softer than cotton forsake the children of her devotees? Traditionally recited for the welfare of children.",
+  flags:"Original Tamil, so no Sanskrit approximation. The English transliteration is generated from the Tamil letter by letter.",
+  source:"Abirami Andhadhi by Abirami Bhattar (18th century), Thirukkadavur. Text: Project Madurai."
+},
+{
+  id:'ab74', en:"Abirami Andhadhi — Verse 74", ta:"அபிராமி அந்தாதி — பாடல் 74", target:1,
+  tamil:"நயனங்கள் மூன்றுடை நாதனும் வேதமும் நாரணனும்\nஅயனும் பரவும் அபிராம வல்லி அடி இணையைப்\nபயன் என்று கொண்டவர் பாவையர் ஆடவும் பாடவும் பொன்\nசயனம் பொருந்து தமனியக் காவினில் தங்குவரே.",
+  simple:"Nayanangal moondrudai naathanum vethamum naarananum\nAyanum paravum apiraama valli adi inaiyaip\nPayan endru kondavar paavaiyar aadavum paadavum pon\nSayanam porundu thamaniyak kaavinil thanguvare.",
+  iast:"nayaṉaṅkaḷ mūṉṟuṭai nātaṉum vētamum nāraṇaṉum\nayaṉum paravum apirāma valli aṭi iṇaiyaip\npayaṉ eṉṟu koṇṭavar pāvaiyar āṭavum pāṭavum poṉ\ncayaṉam poruntu tamaṉiyak kāviṉil taṅkuvarē.",
+  meaning:"Those who take as their goal the feet of Abirami, praised by three-eyed Shiva, the Vedas, Narayana and Brahma, will dwell in a golden grove on golden couches, amid dancing and song. Traditionally recited for success in one’s work.",
+  flags:"Original Tamil, so no Sanskrit approximation. The English transliteration is generated from the Tamil letter by letter. Please check this verse against your book; it could not be matched to an online copy here.",
+  source:"Abirami Andhadhi by Abirami Bhattar (18th century), Thirukkadavur."
+},
+{
+  id:'ab75', en:"Abirami Andhadhi — Verse 75", ta:"அபிராமி அந்தாதி — பாடல் 75", target:1,
+  tamil:"தங்குவர் கற்பகத் தாருவின் நீழலில் தாயர் இன்றி\nமங்குவர் மண்ணில் வழுவாய் பிறவியை மால் வரையும்\nபொங்கு உவர் ஆழியும் ஈரேழ் புவனமும் பூத்த உந்திக்\nகொங்கு இவர் பூங்குழலாள் திருமேனி குறித்தவரே.",
+  simple:"Thanguvar karpagath thaaruvin neezhalil thaayar indri\nManguvar mannil vazhuvaay piraviyai maal varaiyum\nPongu uvar aazhiyum eerezh puvanamum pootha undik\nKongu ivar poonguzhalaal thirumeni kurithavare.",
+  iast:"taṅkuvar kaṟpakat tāruviṉ nīḻalil tāyar iṉṟi\nmaṅkuvar maṇṇil vaḻuvāy piṟaviyai māl varaiyum\npoṅku uvar āḻiyum īrēḻ puvaṉamum pūtta untik\nkoṅku ivar pūṅkuḻalāḷ tirumēṉi kuṟittavarē.",
+  meaning:"Those who meditate on the form of the Mother with fragrant flower-decked hair — from whose navel bloomed the great mountains, the surging sea and the fourteen worlds — will rest in the shade of the wish-granting tree and be freed from birth on this earth. Traditionally recited to overcome fate.",
+  flags:"Original Tamil, so no Sanskrit approximation. The English transliteration is generated from the Tamil letter by letter. Please check this verse against your book; it could not be matched to an online copy here.",
+  source:"Abirami Andhadhi by Abirami Bhattar (18th century), Thirukkadavur."
+},
+{
+  id:'shanmuga', en:"Shanmuga Kavasam", ta:"சண்முக கவசம்", target:1, needsText:true,
+  tamil:'', simple:'', iast:'',
+  meaning:"A kavasam (armour) of 30 verses by Pamban Swamigal, asking Lord Shanmuga to protect every part of the body and every hour of the day.",
+  flags:'',
+  source:"Pamban Kumaraguruthasa Swamigal. Text not included yet. Tap “Edit text” to paste it, or send it to Claude to add for everyone."
+},
+{
+  id:'skandaguru', en:"Skanda Guru Kavasam", ta:"ஸ்கந்த குரு கவசம்", target:1, needsText:true,
+  tamil:'', simple:'', iast:'',
+  meaning:"A long kavasam to Lord Skanda as the Guru, by Santhananda Swamigal, praying for protection, wisdom and the guidance of a teacher.",
+  flags:'',
+  source:"Santhananda Swamigal. Text not included. Tap “Edit text” to paste it from your book."
+},
+{
+  id:'devikavacham', en:"Devi Kavacham", ta:"தேவீ கவசம்", target:1, needsText:true,
+  tamil:'', simple:'', iast:'',
+  meaning:"The Sanskrit armour-hymn to the Goddess from the Markandeya Purana, chanted before the Devi Mahatmyam (Durga Saptashati), invoking her forms to guard each part of the body.",
+  flags:'',
+  source:"Markandeya Purana. Text not included. Tap “Edit text” to paste it from a trusted source."
+},
 {
   id:'saravana', en:'Om Saravanabhava', ta:'ஓம் சரவணபவ', target:108, suggested:true,
   tamil:'ஓம் சரவணபவ',
@@ -427,24 +499,6 @@ const BUILTIN = [
   meaning:'Om. “Gam” is the seed syllable of Ganesha. Salutations to Ganapati, lord of the ganas and remover of obstacles — traditionally chanted before beginning any undertaking.',
   flags:'க is read as g in கம் and கண (gaṃ, gaṇa).',
   source:'Ganapati moola mantra'
-},
-{
-  id:'harekrishna', en:'Hare Krishna Maha Mantra', ta:'ஹரே க்ருஷ்ண மஹா மந்த்ரம்', target:108, suggested:true,
-  tamil:'ஹரே க்ருஷ்ண ஹரே க்ருஷ்ண\nக்ருஷ்ண க்ருஷ்ண ஹரே ஹரே ।\nஹரே ராம ஹரே ராம\nராம ராம ஹரே ஹரே ॥',
-  simple:'Hare Krishna Hare Krishna\nKrishna Krishna Hare Hare\nHare Rama Hare Rama\nRama Rama Hare Hare',
-  iast:'hare kṛṣṇa hare kṛṣṇa\nkṛṣṇa kṛṣṇa hare hare |\nhare rāma hare rāma\nrāma rāma hare hare ||',
-  meaning:'A sixteen-word call to the Divine as Hari, Krishna and Rama, praised in the Kali-santarana Upanishad as the chant suited to this age. One round = 108; many practitioners chant 16 rounds daily.',
-  flags:'க்ருஷ்ண approximates kṛṣṇa (vowel ṛ).',
-  source:'Kali-santarana Upanishad'
-},
-{
-  id:'rama', en:'Sri Rama Jaya Rama', ta:'ஶ்ரீ ராம ஜய ராம', target:108, suggested:true,
-  tamil:'ஶ்ரீ ராம ஜய ராம ஜய ஜய ராம',
-  simple:'Sri Rama Jaya Rama Jaya Jaya Rama',
-  iast:'śrī rāma jaya rāma jaya jaya rāma',
-  meaning:'Glory to Sri Rama, victory to Rama. A thirteen-syllable Rama-nama mantra, widely used for japa and bhajan.',
-  flags:'ஶ்ரீ is the Grantha spelling of śrī; ஸ்ரீ is the common printed form.',
-  source:'Traditional Rama-nama japa'
 }
 ];
 
@@ -459,13 +513,16 @@ function save(){
   try{ localStorage.setItem(KEY, JSON.stringify(S)); }
   catch(e){ storageOK = false; $('#storageWarn').hidden = false; }
 }
-const DEFAULT_SETTINGS = { font:26, theme:'auto', iast:false, show:'both', haptics:true, hideText:false };
+const DEFAULT_SETTINGS = { font:26, theme:'auto', iast:false, show:'both', haptics:true, hideText:false, libView:'mine', chosen:null };
+const DEFAULT_CHOSEN = ['mmm','kss','gayatri','shiva','narayana','chalisa'];
+const LEGACY = { vsn:'Vishnu Sahasranamam', harekrishna:'Hare Krishna Maha Mantra', rama:'Sri Rama Jaya Rama' };
 let S = (()=>{
   const d = load() || {};
   return {
     custom: Array.isArray(d.custom) ? d.custom : [],
     log: (d.log && typeof d.log === 'object') ? d.log : {},
     session: d.session || null,
+    overrides: (d.overrides && typeof d.overrides === 'object') ? d.overrides : {},
     settings: Object.assign({}, DEFAULT_SETTINGS, d.settings || {})
   };
 })();
@@ -473,7 +530,20 @@ let S = (()=>{
 /* ================= HELPERS ================= */
 const $ = s => document.querySelector(s);
 const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const allSlokas = () => BUILTIN.concat(S.custom);
+const allSlokas = () => BUILTIN.concat(S.custom).map(s => {
+  const o = S.overrides[s.id]; if(!o) return s;
+  const m = Object.assign({}, s, o, {edited:true});
+  if(o.tamil || o.simple){ m.needsText = false; if(o.simple) m.iast = ''; }
+  return m;
+});
+const chosenIds = () => Array.isArray(S.settings.chosen) ? S.settings.chosen : DEFAULT_CHOSEN.concat(S.custom.map(c => c.id));
+const isChosen = id => chosenIds().includes(id);
+function setChosen(id, on){
+  const c = chosenIds().filter(x => x !== id);
+  if(on){ const ord = allSlokas().map(s => s.id); c.push(id); c.sort((a,b) => ord.indexOf(a) - ord.indexOf(b)); }
+  S.settings.chosen = c; save();
+}
+const nameOf = id => { const s = byId(id); return s ? s.en : (LEGACY[id] || '(deleted sloka)'); };
 const byId = id => allSlokas().find(s => s.id === id);
 const pad = n => String(n).padStart(2,'0');
 const dateKey = d => d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
@@ -510,6 +580,14 @@ function bestStreak(){
 function vib(p){
   try{ if(S.settings.haptics && navigator.vibrate) navigator.vibrate(p); }catch(e){}
 }
+function ask(msg, yes){
+  return new Promise(res => {
+    const m = $('#modal'); $('#modalMsg').textContent = msg; $('#modalYes').textContent = yes || 'OK';
+    m.hidden = false;
+    const done = v => { m.hidden = true; $('#modalYes').onclick = $('#modalNo').onclick = null; res(v); };
+    $('#modalYes').onclick = () => done(true); $('#modalNo').onclick = () => done(false);
+  });
+}
 let toastT;
 function toast(msg){
   const t = $('#toast'); t.textContent = msg; t.classList.add('show');
@@ -536,38 +614,116 @@ function applyFont(){
 /* ================= LIBRARY ================= */
 function renderLibrary(){
   const today = todayKey();
-  const html = allSlokas().map(s => {
+  const view = S.settings.libView === 'all' ? 'all' : 'mine';
+  const all = allSlokas();
+  const mine = all.filter(s => isChosen(s.id));
+  document.querySelectorAll('#libSeg button').forEach(b => b.classList.toggle('on', b.dataset.lib === view));
+  $('#cntMine').textContent = mine.length; $('#cntAll').textContent = all.length;
+  $('#libHint').textContent = view === 'mine'
+    ? 'Your chosen slokas. Switch to “All slokas” to add or remove from this list.'
+    : 'Tap “Add to my list” on the slokas you chant. Only those show under “My list”.';
+  const list = view === 'mine' ? mine : all;
+  if(!list.length){
+    $('#libList').innerHTML = `<div class="empty"><p>Your list is empty.</p><button class="btn primary" data-lib-go="all">Choose slokas</button></div>`;
+    return;
+  }
+  $('#libList').innerHTML = list.map(s => {
     const c = dayCount(today, s.id);
     const pct = Math.min(100, Math.round(c / s.target * 100));
+    const on = isChosen(s.id);
     const badges = [
       s.partial ? '<span class="badge partial">Full text: add from a trusted source</span>' : '',
+      s.needsText ? '<span class="badge partial">Text to add</span>' : '',
       s.suggested ? '<span class="badge">Suggested</span>' : '',
-      s.custom ? '<span class="badge">My sloka</span>' : ''
+      s.custom ? '<span class="badge">My sloka</span>' : '',
+      s.edited && !s.custom ? '<span class="badge">Edited</span>' : ''
     ].join('');
-    return `<article class="card">
+    const id = esc(s.id);
+    return `<article class="card" data-card="${id}">
       <div class="card-head">
         <div style="min-width:0"><h2>${esc(s.en)}</h2>${s.ta ? `<div class="ta-name ta">${esc(s.ta)}</div>` : ''}</div>
         <div class="target">× ${s.target}</div>
       </div>
       ${badges ? `<div class="badges">${badges}</div>` : ''}
+      ${view === 'all' ? `<button class="pick ${on ? 'on' : ''}" data-pick="${id}" aria-pressed="${on}">${on ? '✓ In my list' : '+ Add to my list'}</button>` : ''}
       ${s.tamil ? `<div class="txt ta clamp">${esc(s.tamil)}</div>` : ''}
       ${translit(s) ? `<div class="txt tr clamp">${esc(translit(s))}</div>` : ''}
-      <button class="link more" type="button">Show full text</button>
+      ${(s.tamil || translit(s)) ? '<button class="link more" type="button">Show full text</button>' : ''}
+      ${s.needsText ? '<p class="meaning" style="color:var(--warn)">The text isn’t included yet. Tap “Edit” to paste it from your book.</p>' : ''}
       ${s.meaning ? `<p class="meaning">${esc(s.meaning)}</p>` : ''}
       ${s.flags ? `<details class="flag"><summary>⚠ Pronunciation notes</summary><p>${esc(s.flags)}</p></details>` : ''}
       ${s.source ? `<div class="source">${esc(s.source)}</div>` : ''}
       <div class="bar"><span style="width:${pct}%"></span></div>
       <div class="bar-label">Today: ${c} / ${s.target}${c >= s.target ? ' · complete 🙏' : ''}</div>
       <div class="actions">
-        <button class="btn primary chant" data-id="${esc(s.id)}">Begin chanting</button>
-        ${s.custom ? `<button class="btn danger del" data-id="${esc(s.id)}">Delete</button>` : ''}
+        <button class="btn primary chant" data-id="${id}">Begin chanting</button>
+        <button class="btn edit" data-id="${id}">Edit</button>
+        ${s.custom ? `<button class="btn danger del" data-id="${id}">Delete</button>` : ''}
       </div>
+      <form class="editor" data-ed="${id}" hidden>
+        <label class="fld" for="edTa-${id}">Text in Tamil script</label>
+        <textarea id="edTa-${id}" class="ta"></textarea>
+        <label class="fld" for="edTr-${id}">Text in English transliteration</label>
+        <textarea id="edTr-${id}" class="tr"></textarea>
+        <label class="fld" for="edTg-${id}">Target count</label>
+        <input type="number" id="edTg-${id}" min="1" max="100000" inputmode="numeric">
+        <div class="actions" style="flex-wrap:wrap">
+          <button class="btn primary" type="submit">Save</button>
+          <button class="btn" type="button" data-ed-cancel="${id}">Cancel</button>
+          ${s.edited && !s.custom ? `<button class="btn ghost" type="button" data-ed-restore="${id}">Restore original</button>` : ''}
+        </div>
+      </form>
     </article>`;
   }).join('');
-  $('#libList').innerHTML = html;
 }
+$('#libSeg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  S.settings.libView = b.dataset.lib; save(); renderLibrary();
+});
+$('#libList').addEventListener('submit', e => {
+  const f = e.target.closest('.editor'); if(!f) return;
+  e.preventDefault();
+  const id = f.dataset.ed, s = byId(id);
+  const tamil = f.querySelector('textarea.ta').value.trim();
+  const simple = f.querySelector('textarea.tr').value.trim();
+  const target = parseInt(f.querySelector('input').value, 10);
+  if(!(target >= 1)){ toast('Target must be at least 1'); return; }
+  if(s.custom){
+    const c = S.custom.find(x => x.id === id); Object.assign(c, {tamil, simple, target});
+  } else {
+    const base = BUILTIN.find(x => x.id === id);
+    const o = {};
+    if(tamil !== (base.tamil || '')) o.tamil = tamil;
+    if(simple !== (base.simple || '')) o.simple = simple;
+    if(target !== base.target) o.target = target;
+    if(Object.keys(o).length) S.overrides[id] = o; else delete S.overrides[id];
+  }
+  save(); renderLibrary(); toast('Saved');
+});
 $('#libList').addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
+  if(b.dataset.libGo){ S.settings.libView = b.dataset.libGo; save(); renderLibrary(); return; }
+  if(b.dataset.pick){
+    const on = !isChosen(b.dataset.pick); setChosen(b.dataset.pick, on);
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+    b.textContent = on ? '✓ In my list' : '+ Add to my list';
+    $('#cntMine').textContent = allSlokas().filter(s => isChosen(s.id)).length;
+    return;
+  }
+  if(b.dataset.edCancel){ b.closest('.editor').hidden = true; return; }
+  if(b.dataset.edRestore){
+    const id = b.dataset.edRestore;
+    ask('Restore the original text and count for this sloka?', 'Restore').then(ok => { if(ok){ delete S.overrides[id]; save(); renderLibrary(); toast('Restored'); } });
+    return;
+  }
+  if(b.classList.contains('edit')){
+    const s = byId(b.dataset.id), f = b.closest('.card').querySelector('.editor');
+    f.querySelector('textarea.ta').value = s.tamil || '';
+    f.querySelector('textarea.tr').value = s.simple || '';
+    f.querySelector('input').value = s.target;
+    f.hidden = !f.hidden; if(!f.hidden) f.querySelector('textarea').focus();
+    return;
+  }
   if(b.classList.contains('chant')) openChant(b.dataset.id);
   else if(b.classList.contains('more')){
     const card = b.closest('.card');
@@ -576,11 +732,12 @@ $('#libList').addEventListener('click', e => {
     b.textContent = open ? 'Show less' : 'Show full text';
   } else if(b.classList.contains('del')){
     const s = byId(b.dataset.id);
-    if(s && confirm(`Delete “${s.en}”? Its past counts stay in your history.`)){
+    if(s) ask(`Delete “${s.en}”? Its past counts stay in your history.`, 'Delete').then(ok => {
+      if(!ok) return;
       S.custom = S.custom.filter(x => x.id !== s.id);
       if(S.session && S.session.id === s.id) S.session = null;
-      save(); renderLibrary(); toast('Deleted');
-    }
+      delete S.overrides[s.id]; setChosen(s.id, false); renderLibrary(); toast('Deleted');
+    });
   }
 });
 
@@ -673,9 +830,9 @@ function undo(){
   S.session.count--; addLog(S.session.id, -1);
   vib(10); save(); updateCounter(); updateStreakPill();
 }
-function reset(){
+async function reset(){
   if(!S.session) return;
-  if(!confirm('Reset this session to 0? Counts already logged for today stay in your history.')) return;
+  if(!(await ask('Reset this session to 0? Counts already logged for today stay in your history.', 'Reset'))) return;
   S.session.count = 0; save(); updateCounter(); toast('Session reset');
 }
 function togglePause(){
@@ -744,7 +901,7 @@ function renderProgress(){
   const totals = {};
   days.forEach(d => { const L = S.log[dateKey(d)] || {}; for(const id in L){ totals[id] = totals[id] || {sum:0, days:0}; totals[id].sum += L[id]; totals[id].days++; } });
   const rows = Object.keys(totals).sort((a,b)=>totals[b].sum - totals[a].sum).map(id => {
-    const s = byId(id); const name = s ? s.en : '(deleted sloka)';
+    const s = byId(id); const name = nameOf(id);
     return `<div class="row"><span>${esc(name)}</span><span class="r">${totals[id].sum} · ${totals[id].days} day${totals[id].days>1?'s':''}</span></div>`;
   });
   $('#perSloka').innerHTML = rows.join('') || '<p class="hint">No chanting logged in the last 30 days yet.</p>';
@@ -757,7 +914,7 @@ function renderDay(k){
     const s = byId(id);
     const tgt = s ? ` / ${s.target}` : '';
     const ok = s && L[id] >= s.target ? ' ✓' : '';
-    return `<div class="row"><span>${esc(s ? s.en : '(deleted sloka)')}</span><span class="r">${L[id]}${tgt}${ok}</span></div>`;
+    return `<div class="row"><span>${esc(nameOf(id))}</span><span class="r">${L[id]}${tgt}${ok}</span></div>`;
   });
   $('#dayDetail').innerHTML = rows.join('') || '<p class="hint">No chanting logged.</p>';
 }
@@ -789,35 +946,36 @@ $('#addForm').addEventListener('submit', e => {
     ta: $('#fTaName').value.trim(), tamil, simple, iast:'',
     meaning: $('#fMeaning').value.trim(), target, flags:'', source:''
   });
+  setChosen(S.custom[S.custom.length-1].id, true); S.settings.libView = 'mine';
   save(); e.target.reset(); $('#fTarget').value = 108;
   toast('Added to library'); show('library');
 });
 
 $('#exportBtn').onclick = () => {
+  const t = $('#backupTxt'); t.value = JSON.stringify(S);
+  const fallback = () => { t.focus(); t.select(); toast('Backup selected — copy it'); };
   try{
-    const blob = new Blob([JSON.stringify(S, null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'japa-tracker-backup-' + todayKey() + '.json';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
-  }catch(err){ toast('Export failed'); }
+    if(navigator.clipboard && navigator.clipboard.writeText)
+      navigator.clipboard.writeText(t.value).then(() => toast('Backup copied'), fallback);
+    else fallback();
+  }catch(e){ fallback(); }
 };
+async function restoreFrom(text){
+  try{
+    const d = JSON.parse(text);
+    if(!d || typeof d.log !== 'object') throw 0;
+    if(!(await ask('Replace all current data on this phone with this backup?', 'Replace'))) return;
+    S = { custom: Array.isArray(d.custom) ? d.custom : [], log: d.log, session: d.session || null, overrides: (d.overrides && typeof d.overrides === 'object') ? d.overrides : {},
+          settings: Object.assign({}, DEFAULT_SETTINGS, d.settings || {}) };
+    save(); initSettingsUI(); renderLibrary(); updateStreakPill(); toast('Backup restored');
+  }catch(err){ toast('That isn’t a Japa Tracker backup'); }
+}
+$('#restoreBtn').onclick = () => { const v = $('#backupTxt').value.trim(); if(!v){ toast('Paste a backup first'); return; } restoreFrom(v); };
 $('#importBtn').onclick = () => $('#importFile').click();
 $('#importFile').addEventListener('change', e => {
   const f = e.target.files[0]; if(!f) return;
   const r = new FileReader();
-  r.onload = () => {
-    try{
-      const d = JSON.parse(r.result);
-      if(!d || typeof d.log !== 'object') throw 0;
-      if(!confirm('Replace all current data with this backup?')) return;
-      S = { custom: Array.isArray(d.custom) ? d.custom : [], log: d.log, session: d.session || null,
-            settings: Object.assign({}, DEFAULT_SETTINGS, d.settings || {}) };
-      save(); initSettingsUI(); renderLibrary(); updateStreakPill(); toast('Backup restored');
-    }catch(err){ toast('That file isn’t a Japa Tracker backup'); }
-    e.target.value = '';
-  };
+  r.onload = () => { restoreFrom(r.result); e.target.value = ''; };
   r.readAsText(f);
 });
 function initSettingsUI(){
@@ -849,5 +1007,6 @@ initSettingsUI();
 updateStreakPill();
 show('library');
 </script>
+
 </body>
 </html>
