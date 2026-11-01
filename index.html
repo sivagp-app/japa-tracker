@@ -94,6 +94,7 @@ details.flag p{margin:6px 0 2px}
 .libseg button{flex:1;font-size:14px;min-height:42px}
 .pick{margin-top:12px;width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--heading);border-radius:12px;padding:10px;font-weight:600;min-height:44px}
 .pick.on{border-style:solid;border-color:var(--saffron);background:var(--surface2)}
+.textlink{display:flex;align-items:center;justify-content:center;margin-top:12px;text-decoration:none;color:var(--heading)}
 .editor{margin-top:12px;border-top:1px dashed var(--line);padding-top:4px}
 .btn.danger{color:#B3261E}
 .btn:active{transform:scale(.98)}
@@ -419,11 +420,11 @@ const BUILTIN = [
   source:'Opening dohas and first two chaupais. Full text: add from a trusted source (e.g. Gita Press).'
 },
 {
-  id:'dukha', en:"Durga Dukha Nivarana Ashtakam", ta:"துர்க்கை துக்க நிவாரண அஷ்டகம்", target:1, needsText:true,
+  id:'dukha', en:"Durga Dukha Nivarana Ashtakam", ta:"துர்க்கை துக்க நிவாரண அஷ்டகம்", target:1, needsText:true, link:'https://temple.dinamalar.com/Slogandetails.php?id=1563', linkLabel:'Read the full text on Dinamalar',
   tamil:'', simple:'', iast:'',
   meaning:"Eight verses to Goddess Durga (Kamakshi) as the remover of sorrow, each ending “Jaya Jaya Shankari … Dukha Nivarani Kamakshi”. Commonly sung on Tuesdays and Fridays and during Rahu Kalam.",
   flags:'',
-  source:"Text not included. Tap “Edit text” to paste it from your book."
+  source:"Text not included in the app. Open it from the link above, or tap “Edit” to paste it so it shows while you chant on this phone."
 },
 {
   id:'ab40', en:"Abirami Andhadhi — Verse 40", ta:"அபிராமி அந்தாதி — பாடல் 40", target:1,
@@ -649,7 +650,8 @@ function renderLibrary(){
       ${s.tamil ? `<div class="txt ta clamp">${esc(s.tamil)}</div>` : ''}
       ${translit(s) ? `<div class="txt tr clamp">${esc(translit(s))}</div>` : ''}
       ${(s.tamil || translit(s)) ? '<button class="link more" type="button">Show full text</button>' : ''}
-      ${s.needsText ? '<p class="meaning" style="color:var(--warn)">The text isn’t included yet. Tap “Edit” to paste it from your book.</p>' : ''}
+      ${s.link ? `<a class="btn textlink" href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.linkLabel || 'Read the full text')} ↗</a>` : ''}
+      ${s.needsText && !s.link ? '<p class="meaning" style="color:var(--warn)">The text isn’t included yet. Tap “Edit” to paste it from your book.</p>' : ''}
       ${s.meaning ? `<p class="meaning">${esc(s.meaning)}</p>` : ''}
       ${s.flags ? `<details class="flag"><summary>⚠ Pronunciation notes</summary><p>${esc(s.flags)}</p></details>` : ''}
       ${s.source ? `<div class="source">${esc(s.source)}</div>` : ''}
@@ -783,7 +785,8 @@ function renderChant(){
   $('#cTr').textContent = tr;
   $('#cTa').hidden = mode === 'en' || !s.tamil;
   $('#cTr').hidden = (mode === 'ta' && !!s.tamil) || !tr;
-  $('#cPartial').hidden = !s.partial;
+  $('#cPartial').hidden = !s.partial && !s.needsText;
+  $('#cPartial').innerHTML = s.needsText ? (s.link ? `Text not included. <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.linkLabel || 'Read the full text')} ↗</a>, or tap Edit in the Library to paste it here.` : 'Text not added yet. Tap Edit in the Library to paste it.') : 'Opening verses only. Full text: add from a trusted source.';
   $('#chantText').hidden = S.settings.hideText;
   $('#chantText').classList.toggle('long', ((s.tamil||'')+'').split('\n').length > 20);
   if(malaKey !== s.id + ':' + roundSize(s)) $('#chantText').scrollTop = 0;
