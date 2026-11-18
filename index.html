@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#7E1426" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1F0B26" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#063B46" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#03141A" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Japa Tracker</title>
@@ -14,40 +14,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans:wght@400;600;700&family=Noto+Serif:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* Temple-lamp palette: sandalwood day, plum night; kumkum-to-saffron as the one bold note */
-  --bg:#FFF6EA; --surface:#FFFFFF; --surface2:#FFEBD3; --text:#2A1310; --muted:#7A5447;
-  --heading:#8E1B2B; --accent:#C42A22; --on-accent:#FFF8EE; --saffron:#F26B1D; --gold:#E3A21A;
-  --line:#F1D9BD; --bead:#EBCFAD; --warn:#8A4B00; --warnbg:#FFF0D2; --ok:#2E7D4F; --danger:#B3261E;
-  --grad:linear-gradient(135deg,#B3172E 0%,#E2401F 55%,#F58A1F 100%);
-  --hdr-bg:linear-gradient(115deg,#7E1426 0%,#B3172E 50%,#E8551E 100%); --hdr-top:#7E1426; --on-hdr:#FFF4E2;
-  --lamp:radial-gradient(circle at 50% 46%,#FFFDF6 0%,#FFF1D9 45%,#FFDDB3 100%);
-  --glow:rgba(242,107,29,.55);
-  --shadow:0 4px 18px rgba(142,27,43,.10);
-  --chant:26px; --nav:66px; --hdr:54px;
+  /* Three palettes (Peacock default, Midnight, Sage) x light/dark, picked by data-palette + system or data-theme */
+  --bg:#F1F7F6; --surface:#FFFFFF; --surface2:#DCEEEB; --text:#0E2A2E; --muted:#4F6E70; --heading:#0B4F5C; --accent:#0F766E; --on-accent:#FFFFFF; --saffron:#0E9F9A; --gold:#D4A017; --line:#CFE3E0; --bead:#CBE2DE; --warn:#8A4B00; --warnbg:#FFF1D6; --danger:#B3261E; --grad:linear-gradient(135deg,#0F766E 0%,#0E7490 50%,#1D4ED8 100%); --hdr-bg:linear-gradient(115deg,#063B46 0%,#0B5E6B 55%,#1D4ED8 100%); --hdr-top:#063B46; --on-hdr:#EFFFFC; --lamp:radial-gradient(circle at 50% 46%,#FFFFFF 0%,#E3F4F1 55%,#C9E7E2 100%); --glow:rgba(14,116,144,.35); --shadow:0 4px 18px rgba(11,79,92,.10);
+  --ok:#2E7D4F; --chant:26px; --nav:66px; --hdr:54px;
   color-scheme:light;
 }
+:root[data-palette="midnight"]{ --bg:#F3F4FB; --surface:#FFFFFF; --surface2:#E3E6F8; --text:#161A3A; --muted:#5A5F86; --heading:#2B2F8F; --accent:#4338CA; --on-accent:#FFFFFF; --saffron:#5B5BD6; --gold:#E9A23B; --line:#DADDF2; --bead:#D6DAF2; --warn:#8A4B00; --warnbg:#FFF1D6; --danger:#B3261E; --grad:linear-gradient(135deg,#4338CA 0%,#7C3AED 100%); --hdr-bg:linear-gradient(115deg,#14154A 0%,#2B2F8F 55%,#5B21B6 100%); --hdr-top:#14154A; --on-hdr:#EEF0FF; --lamp:radial-gradient(circle at 50% 46%,#FFFFFF 0%,#ECEEFC 55%,#D9DDF7 100%); --glow:rgba(67,56,202,.3); --shadow:0 4px 18px rgba(43,47,143,.10); }
+:root[data-palette="sage"]{ --bg:#F4F3EE; --surface:#FFFFFF; --surface2:#E7EADF; --text:#1F2A22; --muted:#5E6B60; --heading:#2F4A3A; --accent:#2F5A43; --on-accent:#FFFFFF; --saffron:#4E7A5E; --gold:#B8873B; --line:#DDE1D3; --bead:#DCE2D4; --warn:#8A4B00; --warnbg:#FFF1D6; --danger:#B3261E; --grad:linear-gradient(135deg,#2F5A43 0%,#4A7A5C 100%); --hdr-bg:linear-gradient(115deg,#22382B 0%,#2F4A3A 60%,#3F6B52 100%); --hdr-top:#22382B; --on-hdr:#F1F5EC; --lamp:radial-gradient(circle at 50% 46%,#FFFFFF 0%,#EEF1E8 55%,#DFE5D6 100%); --glow:rgba(47,90,67,.28); --shadow:0 4px 18px rgba(34,56,43,.10); }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#140A18; --surface:#20132A; --surface2:#2D1D38; --text:#FBEFE4; --muted:#C8AFA6;
-    --heading:#FFC56E; --accent:#FF7A3D; --on-accent:#1B0D12; --saffron:#FF9440; --gold:#FFCB4D;
-    --line:#3D2A47; --bead:#4B3556; --warn:#FFC86B; --warnbg:#3A2716; --ok:#7BD39A; --danger:#FF8A80;
-    --grad:linear-gradient(135deg,#FF5E3A 0%,#FF8A3D 55%,#FFC14D 100%);
-    --hdr-bg:linear-gradient(115deg,#1F0B26 0%,#4A1232 55%,#7A2420 100%); --hdr-top:#1F0B26; --on-hdr:#FFE9CC;
-    --lamp:radial-gradient(circle at 50% 46%,#3E2347 0%,#291833 50%,#1A0F22 100%);
-    --glow:rgba(255,160,64,.6);
-    --shadow:0 4px 18px rgba(0,0,0,.4); color-scheme:dark;
-  }
+  :root:not([data-theme="light"]){ --bg:#061A1F; --surface:#0C2A31; --surface2:#123A43; --text:#E6FBF8; --muted:#93B9B6; --heading:#5EEAD4; --accent:#2DD4BF; --on-accent:#04161A; --saffron:#2DD4BF; --gold:#FBBF24; --line:#1B414A; --bead:#1E4A52; --warn:#FFC86B; --warnbg:#3A2E14; --danger:#FF8A80; --grad:linear-gradient(135deg,#14B8A6 0%,#22D3EE 50%,#60A5FA 100%); --hdr-bg:linear-gradient(115deg,#03141A 0%,#08343D 55%,#0E2A5C 100%); --hdr-top:#03141A; --on-hdr:#D9FFF8; --lamp:radial-gradient(circle at 50% 46%,#14444C 0%,#0C2A31 55%,#061A1F 100%); --glow:rgba(45,212,191,.35); --shadow:0 4px 18px rgba(0,0,0,.4); color-scheme:dark; }
+  :root[data-palette="midnight"]:not([data-theme="light"]){ --bg:#0A0B1E; --surface:#12142E; --surface2:#1C1F44; --text:#EEF0FF; --muted:#A3A8D6; --heading:#C7D2FE; --accent:#A5B4FC; --on-accent:#0A0B1E; --saffron:#A5B4FC; --gold:#FDE68A; --line:#252A55; --bead:#2A2E5C; --warn:#FFC86B; --warnbg:#33290F; --danger:#FF8A80; --grad:linear-gradient(135deg,#818CF8 0%,#C084FC 100%); --hdr-bg:linear-gradient(115deg,#05061A 0%,#141850 55%,#2E1065 100%); --hdr-top:#05061A; --on-hdr:#E0E7FF; --lamp:radial-gradient(circle at 50% 46%,#262A63 0%,#12142E 55%,#0A0B1E 100%); --glow:rgba(129,140,248,.35); --shadow:0 4px 18px rgba(0,0,0,.45); color-scheme:dark; }
+  :root[data-palette="sage"]:not([data-theme="light"]){ --bg:#0F1411; --surface:#18201B; --surface2:#222C25; --text:#E9EFE6; --muted:#A3B1A5; --heading:#B7D3B0; --accent:#8FBF98; --on-accent:#0F1411; --saffron:#8FBF98; --gold:#D9AE62; --line:#2A352D; --bead:#2E3A31; --warn:#FFC86B; --warnbg:#33290F; --danger:#FF8A80; --grad:linear-gradient(135deg,#7FB08A 0%,#C9A35B 100%); --hdr-bg:linear-gradient(115deg,#0A0F0C 0%,#17231C 55%,#22382B 100%); --hdr-top:#0A0F0C; --on-hdr:#E3EEDD; --lamp:radial-gradient(circle at 50% 46%,#26332A 0%,#18201B 55%,#0F1411 100%); --glow:rgba(143,191,152,.3); --shadow:0 4px 18px rgba(0,0,0,.4); color-scheme:dark; }
 }
-:root[data-theme="dark"]{
-  --bg:#140A18; --surface:#20132A; --surface2:#2D1D38; --text:#FBEFE4; --muted:#C8AFA6;
-  --heading:#FFC56E; --accent:#FF7A3D; --on-accent:#1B0D12; --saffron:#FF9440; --gold:#FFCB4D;
-  --line:#3D2A47; --bead:#4B3556; --warn:#FFC86B; --warnbg:#3A2716; --ok:#7BD39A; --danger:#FF8A80;
-  --grad:linear-gradient(135deg,#FF5E3A 0%,#FF8A3D 55%,#FFC14D 100%);
-  --hdr-bg:linear-gradient(115deg,#1F0B26 0%,#4A1232 55%,#7A2420 100%); --hdr-top:#1F0B26; --on-hdr:#FFE9CC;
-  --lamp:radial-gradient(circle at 50% 46%,#3E2347 0%,#291833 50%,#1A0F22 100%);
-  --glow:rgba(255,160,64,.6);
-  --shadow:0 4px 18px rgba(0,0,0,.4); color-scheme:dark;
-}
+:root[data-theme="dark"]{ --bg:#061A1F; --surface:#0C2A31; --surface2:#123A43; --text:#E6FBF8; --muted:#93B9B6; --heading:#5EEAD4; --accent:#2DD4BF; --on-accent:#04161A; --saffron:#2DD4BF; --gold:#FBBF24; --line:#1B414A; --bead:#1E4A52; --warn:#FFC86B; --warnbg:#3A2E14; --danger:#FF8A80; --grad:linear-gradient(135deg,#14B8A6 0%,#22D3EE 50%,#60A5FA 100%); --hdr-bg:linear-gradient(115deg,#03141A 0%,#08343D 55%,#0E2A5C 100%); --hdr-top:#03141A; --on-hdr:#D9FFF8; --lamp:radial-gradient(circle at 50% 46%,#14444C 0%,#0C2A31 55%,#061A1F 100%); --glow:rgba(45,212,191,.35); --shadow:0 4px 18px rgba(0,0,0,.4); color-scheme:dark; }
+:root[data-theme="dark"][data-palette="midnight"]{ --bg:#0A0B1E; --surface:#12142E; --surface2:#1C1F44; --text:#EEF0FF; --muted:#A3A8D6; --heading:#C7D2FE; --accent:#A5B4FC; --on-accent:#0A0B1E; --saffron:#A5B4FC; --gold:#FDE68A; --line:#252A55; --bead:#2A2E5C; --warn:#FFC86B; --warnbg:#33290F; --danger:#FF8A80; --grad:linear-gradient(135deg,#818CF8 0%,#C084FC 100%); --hdr-bg:linear-gradient(115deg,#05061A 0%,#141850 55%,#2E1065 100%); --hdr-top:#05061A; --on-hdr:#E0E7FF; --lamp:radial-gradient(circle at 50% 46%,#262A63 0%,#12142E 55%,#0A0B1E 100%); --glow:rgba(129,140,248,.35); --shadow:0 4px 18px rgba(0,0,0,.45); color-scheme:dark; }
+:root[data-theme="dark"][data-palette="sage"]{ --bg:#0F1411; --surface:#18201B; --surface2:#222C25; --text:#E9EFE6; --muted:#A3B1A5; --heading:#B7D3B0; --accent:#8FBF98; --on-accent:#0F1411; --saffron:#8FBF98; --gold:#D9AE62; --line:#2A352D; --bead:#2E3A31; --warn:#FFC86B; --warnbg:#33290F; --danger:#FF8A80; --grad:linear-gradient(135deg,#7FB08A 0%,#C9A35B 100%); --hdr-bg:linear-gradient(115deg,#0A0F0C 0%,#17231C 55%,#22382B 100%); --hdr-top:#0A0F0C; --on-hdr:#E3EEDD; --lamp:radial-gradient(circle at 50% 46%,#26332A 0%,#18201B 55%,#0F1411 100%); --glow:rgba(143,191,152,.3); --shadow:0 4px 18px rgba(0,0,0,.4); color-scheme:dark; }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{margin:0;padding:0}
@@ -71,7 +52,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px)); display:flex;align-items:center;gap:10px;
   background:var(--hdr-bg);color:var(--on-hdr);box-shadow:0 2px 10px rgba(60,10,20,.25);
 }
-.brand-om{font-family:'Noto Sans Tamil',sans-serif;font-weight:700;color:#FFD36B;font-size:21px;text-shadow:0 0 12px rgba(255,200,90,.55)}
+.brand-om{font-family:'Noto Sans Tamil',sans-serif;font-weight:700;color:var(--gold);font-size:21px;text-shadow:0 0 12px var(--glow)}
+.palbtn{width:40px;height:40px;flex-shrink:0;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;padding:0}
+.palbtn span{width:22px;height:22px;border-radius:50%;background:var(--grad);border:2px solid rgba(255,255,255,.85)}
+.swatches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.swatch{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--text);min-height:44px}
+.swatch i{width:36px;height:36px;border-radius:50%;display:block}
+.swatch.on{border-color:var(--saffron);box-shadow:0 0 0 3px var(--glow)}
 .brand{font-weight:700;color:var(--on-hdr);font-size:18px;letter-spacing:.3px}
 .streak-pill{margin-left:auto;font-size:13px;font-weight:600;color:var(--on-hdr);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);padding:4px 11px;border-radius:999px;font-variant-numeric:tabular-nums}
 
@@ -239,7 +226,10 @@ nav.bottom button[aria-current="page"] svg{stroke:var(--saffron);background:var(
 .toast{position:fixed;left:50%;bottom:calc(var(--nav) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;
   background:var(--grad);color:var(--on-accent);padding:12px 18px;border-radius:14px;font-weight:600;transition:.25s;z-index:30;max-width:calc(100% - 32px);text-align:center;pointer-events:none;box-shadow:0 6px 20px var(--glow)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-body.chanting .toast{bottom:calc(var(--nav) + 84px + env(safe-area-inset-bottom,0px))}
+body.chanting .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + var(--hdr) + 10px)}
+.brand,.streak-pill{white-space:nowrap}
+.brand{min-width:0;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:360px){.brand{display:none}.streak-pill{margin-left:auto}}
 </style>
 </head>
 <body>
@@ -248,6 +238,7 @@ body.chanting .toast{bottom:calc(var(--nav) + 84px + env(safe-area-inset-bottom,
   <span class="brand-om" aria-hidden="true">ஓம்</span>
   <span class="brand">Japa Tracker</span>
   <span class="streak-pill" id="streakPill">0-day streak</span>
+  <button class="palbtn" id="palBtn" aria-label="Change colours"><span></span></button>
 </header>
 
 <main>
@@ -344,7 +335,15 @@ body.chanting .toast{bottom:calc(var(--nav) + 84px + env(safe-area-inset-bottom,
       <input type="range" id="fontSize" min="16" max="56" step="1">
       <div class="preview"><div class="ta">ஓம் நமோ நாராயணாய</div><div class="tr">Om Namo Narayanaya</div></div>
 
-      <label class="fld">Appearance</label>
+      <label class="fld">Colours</label>
+      <div class="swatches" id="palSeg">
+        <button class="swatch" data-pal="peacock"><i style="background:linear-gradient(135deg,#0F766E,#0E7490 50%,#1D4ED8)"></i>Peacock</button>
+        <button class="swatch" data-pal="midnight"><i style="background:linear-gradient(135deg,#4338CA,#7C3AED)"></i>Midnight</button>
+        <button class="swatch" data-pal="sage"><i style="background:linear-gradient(135deg,#2F5A43,#4A7A5C 60%,#B8873B)"></i>Sage</button>
+      </div>
+      <p class="hint">Or tap the round button at the top right to switch colours anytime.</p>
+
+      <label class="fld">Light or dark</label>
       <div class="seg" id="themeSeg">
         <button data-theme="auto">System</button>
         <button data-theme="light">Light</button>
@@ -562,7 +561,7 @@ function save(){
   try{ localStorage.setItem(KEY, JSON.stringify(S)); }
   catch(e){ storageOK = false; $('#storageWarn').hidden = false; }
 }
-const DEFAULT_SETTINGS = { font:26, theme:'auto', iast:false, show:'both', haptics:true, hideText:false, libView:'mine', chosen:null };
+const DEFAULT_SETTINGS = { font:26, theme:'auto', palette:'peacock', iast:false, show:'both', haptics:true, hideText:false, libView:'mine', chosen:null };
 const DEFAULT_CHOSEN = ['mmm','kss','gayatri','shiva','narayana','chalisa'];
 const LEGACY = { vsn:'Vishnu Sahasranamam', harekrishna:'Hare Krishna Maha Mantra', rama:'Sri Rama Jaya Rama' };
 let S = (()=>{
@@ -648,16 +647,28 @@ function updateStreakPill(){
 }
 
 /* ================= THEME & FONT ================= */
+const PALETTES = { peacock:{name:'Peacock', light:'#063B46', dark:'#03141A'}, midnight:{name:'Midnight', light:'#14154A', dark:'#05061A'}, sage:{name:'Sage', light:'#22382B', dark:'#0A0F0C'} };
+const PAL_ORDER = ['peacock','midnight','sage'];
 function applyTheme(){
   const t = S.settings.theme;
-  if(t === 'auto') document.documentElement.removeAttribute('data-theme');
-  else document.documentElement.setAttribute('data-theme', t);
+  const pal = PALETTES[S.settings.palette] ? S.settings.palette : 'peacock';
+  const root = document.documentElement;
+  if(t === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', t);
+  if(pal === 'peacock') root.removeAttribute('data-palette'); else root.setAttribute('data-palette', pal);
   document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
-    const own = m.media.includes('dark') ? '#1F0B26' : '#7E1426';
-    m.content = t === 'auto' ? own : (t === 'dark' ? '#1F0B26' : '#7E1426');
+    const mode = t === 'auto' ? (m.media.includes('dark') ? 'dark' : 'light') : t;
+    m.content = PALETTES[pal][mode];
   });
   document.querySelectorAll('#themeSeg button').forEach(b => b.classList.toggle('on', b.dataset.theme === t));
+  document.querySelectorAll('#palSeg .swatch').forEach(b => { const on = b.dataset.pal === pal; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
 }
+function setPalette(p){ S.settings.palette = p; applyTheme(); save(); }
+$('#palBtn').onclick = () => {
+  const cur = PAL_ORDER.indexOf(S.settings.palette);
+  const next = PAL_ORDER[(cur + 1) % PAL_ORDER.length];
+  setPalette(next); toast(PALETTES[next].name + ' colours');
+};
+$('#palSeg').addEventListener('click', e => { const b = e.target.closest('.swatch'); if(b) setPalette(b.dataset.pal); });
 function fontStep(d){
   S.settings.font = Math.max(16, Math.min(56, S.settings.font + d));
   applyFont(); save(); toast('Text size ' + S.settings.font);
